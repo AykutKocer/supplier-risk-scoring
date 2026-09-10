@@ -1,0 +1,8 @@
+venv/
+.claude/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.env
+*.pbix.bak
+.DS_Store

@@ -1,0 +1,50 @@
+# Supplier risk scoring configuration
+# =============================================================================
+# Anyone reusing this project (a different company, a different analyst) is
+# expected to EDIT THIS FILE rather than the Python code. The four criteria
+# themselves (delivery, price, dependency, quality) are standard building
+# blocks of a supplier scorecard, but how much each one matters is a business
+# decision that depends on your own supply chain priorities — there is no
+# single universally "correct" weighting.
+#
+# Requirement: the four weights must add up to 1.0. The scoring script
+# validates this and raises an error if they don't.
+#
+# Default rationale used in this project:
+#   - delivery_delay_rate (0.35): weighted highest because a late delivery
+#     stops production/sales immediately — usually the most urgent risk.
+#   - price_volatility (0.25) and supplier_dependency_ratio (0.25): both
+#     financial/strategic risks, weighted equally by default.
+#   - quality_return_rate (0.15): weighted lowest because quality issues are
+#     typically caught and correctable faster than a missed delivery.
+#
+# When you might want different weights:
+#   - Retail / price-sensitive business -> raise price_volatility.
+#   - Few suppliers, many single-sourced critical parts -> raise
+#     supplier_dependency_ratio.
+#   - Safety-critical or regulated products (food, medical, automotive)
+#     -> raise quality_return_rate.
+
+weights:
+  delivery_delay_rate: 0.35
+  price_volatility: 0.25
+  supplier_dependency_ratio: 0.25
+  quality_return_rate: 0.15
+
+# Cutoffs that turn the final 0-100 risk score into a Low/Medium/High label.
+#
+# These are PERCENTILES of the current supplier population, not fixed score
+# values. Fixed cutoffs (e.g. "score > 66 -> High") were tried first and
+# turned out to be unreliable: combining four independently-weighted, min-max
+# normalized metrics pulls the combined score toward the middle of the range
+# (a supplier is rarely the worst on all four metrics at once), so a fixed
+# high cutoff can end up with zero suppliers ever classified as High risk.
+# Percentile-based cutoffs always label a meaningful top/bottom slice of the
+# supplier base, regardless of how spread out the underlying scores are.
+#
+# score <= (low_percentile of all scores)                -> Low
+# (low_percentile) < score <= (high_percentile)           -> Medium
+# score > (high_percentile of all scores)                 -> High
+risk_level_thresholds:
+  low_percentile: 0.60   # bottom 60% of suppliers by risk_score -> Low
+  high_percentile: 0.85  # top 15% of suppliers by risk_score -> High

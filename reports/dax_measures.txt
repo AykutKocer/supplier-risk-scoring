@@ -1,0 +1,33 @@
+Power BI DAX measures for the Supplier Risk & Performance Scoring dashboard.
+Paste each block into Power BI Desktop as a new measure (Home > New Measure)
+on the supplier_risk_scores table.
+
+--------------------------------------------------------------------------
+Total Suppliers = COUNTROWS(supplier_risk_scores)
+
+--------------------------------------------------------------------------
+Average Risk Score = ROUND(AVERAGE(supplier_risk_scores[risk_score]), 1)
+
+--------------------------------------------------------------------------
+High Risk Count =
+CALCULATE(
+    COUNTROWS(supplier_risk_scores),
+    supplier_risk_scores[risk_level] = "High"
+)
+
+--------------------------------------------------------------------------
+High Risk % =
+DIVIDE([High Risk Count], [Total Suppliers])
+
+--------------------------------------------------------------------------
+Suppliers With Estimated Data =
+CALCULATE(
+    COUNTROWS(supplier_risk_scores),
+    supplier_risk_scores[has_estimated_inputs] = TRUE
+)
+
+--------------------------------------------------------------------------
+Average Delivery Delay Rate = ROUND(AVERAGE(supplier_risk_scores[delivery_delay_rate]), 3)
+
+--------------------------------------------------------------------------
+Average Dependency Ratio = ROUND(AVERAGE(supplier_risk_scores[supplier_dependency_ratio]), 3)

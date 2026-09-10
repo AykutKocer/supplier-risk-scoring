@@ -1,0 +1,86 @@
+﻿supplier_id,company_name,sector,city,company_size,founded_year,annual_purchase_volume_tl,total_orders_last_year,late_orders_last_year,price_q1,price_q2,price_q3,price_q4,units_shipped_last_year,units_returned_last_year,contract_start_date,last_audit_date,payment_terms_days,iso_certified
+SUP079,sakarya plastik ltd. şti.,  Plastik ve Kauçuk  ,kocaeli,KÜÇÜK,2014.0,"1.133.007,83",25,7.0,371.31,394.71,"420,90",450.87,8653,1204.0,14/08/2023,04-02-25,30.0,false
+SUP001,Korutürk Aslan Tekstil San. Tic. Ltd. Şti.,tekstil,Konya,orta,1980,15990835.27,134,38.0,322.41,"313,40",317.95,"281,45",46048,6596.0,02/08/2018,29.09.2024,30.0,evet
+SUP069,akçay fırat elektrik san. ve tic. a.ş.,Elektronik,Izmir,ORTA,1982,3635127.73,74,20.0,212.99,199.02,"203,46","209,31",81987,7064.0,17/01/2023,,45.0,No
+SUP023,Sakarya Demir Celik Ltd. Sti.,Metal ve Çelik,Mersin,Small,2017,"1.171.021,60",58,5.0,"20,59","22,78","22,35",23.43,1688,233.0,26.08.2020,,60.0,hayır
+SUP013,şama holding a.ş.,Lojistik,Manisa,büyük,1977,,164,23.0,"3.341,17",3313.66,3288.98,"3.435,07",214628,41843.0,,26/04/2026,45.0,Evet
+SUP083,Gülen Gül Makine San. Tic. Ltd. Şti.,Makine İmalat,  Mersin  ,ORTA,1977,9796523.45,138,27.0,841.97,"912,29","962,56","871,86",96400,,14/05/2018,27.10.2024,90.0,Evet
+SUP011,Şafak Taşımacılık San. Tic. Ltd. Şti.,Lojistik,VAN,ORTA,1985,"14.866.338,66",53,4.0,"398,55","418,81","423,21","392,31",91959,658.0,2019-05-30,06/03/2026,30.0,0
+SUP019,ARSLAN ELEKTRONIK TIC.,Elektronik,şanlıurfa,Small,2014,1248209.53,35,8.0,"82,85",94.52,"96,82",102.10,1460,68.0,12/01/2018,2025-11-12,90.0,No
+SUP005,Bilir Holding A.Ş.,Elektronik,Mersin,BÜYÜK,1992.0,62716451.53,151,30.0,"1.547,42",1621.29,1766.76,1802.61,478591,89049.0,2017-03-14,21.11.2024,,true
+SUP067,Hançer Kauçuk Tic.,Plastik ve Kauçuk,Tekirdağ,KÜÇÜK,,"1.901.079,75",16,5.0,85.74,83.97,86.52,"86,37",14553,2433.0,11-02-20,2026-03-17,60.0,No
+SUP041,Soylu Corlu Nakliyat Ltd. Sti.,Lojistik,Bursa,Small,2002.0,"1.443.013,02",41,4.0,111.55,"101,65",,"110,83",10768,1639.0,17-01-19,,30.0,true
+SUP048,ŞENSOY OTO YEDEK PARÇA TIC.,OTOMOTIV YAN SANAYI,manisa,küçük,1992,3144498.76,46,26.0,202.44,193.05,"192,02","192,36",4071,375.0,25/03/2021,29-04-26,45.0,HAYIR
+SUP036,Akgündüz Çamurcuoğlu Plastik San. ve Tic. A.Ş.,PLASTIK VE KAUÇUK,Şanlıurfa,Orta,1985,17494716.39,81,21.0,"545,26",531.74,505.30,"488,77",70946,6836.0,2025-03-09,14-07-25,60.0,0
+SUP073,Şener Yorulmaz Nakliyat Ltd. Şti.,Lojistik,Bursa,KÜÇÜK,2009,1049215.42,58,21.0,168.87,166.26,"149,62",153.20,9403,1981.0,2017-11-25,,90.0,evet
+SUP056,Hayrioğlu Kimya Tic.,KIMYA,Konya,küçük,1996,"887.432,75",26,4.0,"61,58",65.47,65.31,"67,99",4277,587.0,13.09.2016,,90.0,No
+SUP055,AKSU DURAN MAKINE İMALAT TIC.,Makine İmalat,  Kayseri  ,Küçük,2012,3987031.14,25,4.0,268.60,"277,63",295.63,"310,42",5516,1275.0,2023-01-20,25.04.2026,60.0,false
+SUP034,Çamurcuoğlu Akça Plastik Tic.,Plastik ve Kaucuk,Eskisehir,Small,2011,1405804.18,31,14.0,132.52,125.32,123.92,"123,56",10709,,2017-10-26,2025-02-20,60.0,0
+SUP078,çetin güçlü tekstil ltd. şti.,Tekstil,Kayseri,KÜÇÜK,,804437.05,28,2.0,"153,95","157,68",148.80,"154,55",6373,676.0,25.09.2024,2025-03-17,30.0,Hayır
+SUP043,AKSU ÇETIN MAKINE İMALAT SAN. TIC. LTD. ŞTI.,Makine Imalat,GAZIANTEP,Orta,1999,,42,5.0,"724,04","646,77",704.83,732.50,110348,14155.0,17/04/2019,10-01-26,90.0,hayır
+SUP050,Yılmaz Gül Plastik San. ve Tic. A.Ş.,Plastik ve Kauçuk,eskişehir,Medium,1998,,116,2.0,"204,15",182.67,190.96,174.77,115582,121.0,20-05-19,,60.0,
+SUP012,MANÇO OTO YEDEK PARÇA LTD. ŞTI.,OTOMOTIV YAN SANAYI,Kayseri,küçük,1990,"479.765,79",33,6.0,388.61,"371,04","351,24",334.04,14896,3178.0,2022-06-25,13.04.2025,90.0,HAYIR
+SUP031,Hayrioglu Elektrik San. ve Tic. A.S.,  Elektronik  ,ankara,Orta,1992,"10.725.214,84",68,30.0,"745,72","775,68",792.74,748.04,13101,216.0,05/06/2020,23.02.2026,90.0,Hayır
+SUP040,Bilgin Mobilya Grup A.S.,Mobilya,Kocaeli,Büyük,1978,"61.470.647,75",262,68.0,"5.024,36",4948.96,"5.335,29",5118.76,871937,45335.0,27-06-23,18.06.2025,45.0,hayır
+SUP029,Ertaş Elektronik San. ve Tic. A.Ş.,Elektronik,Kahramanmaraş,Orta,,,150,37.0,1093.51,1109.41,1245.70,1254.28,31299,3274.0,09/11/2020,,90.0,false
+SUP010,Sezgin Nakliyat Ltd. Şti.,Lojistik,  Manisa  ,küçük,2014.0,"162.494,47",58,9.0,297.40,"291,66","305,89",283.30,4871,156.0,20.10.2016,,60.0,No
+SUP065,Bilge Oto Yedek Parça Tic.,  Otomotiv Yan Sanayi  ,İstanbul,KÜÇÜK,1986,3998353.80,48,19.0,383.65,"348,59",336.90,"344,52",1153,88.0,2021-03-15,24-10-25,60.0,0
+SUP006,Tevetoglu Yildirim Makine Imalat Ltd. Sti.,Makine Imalat,çorum,KÜÇÜK,1988,"1.031.835,08",25,9.0,,,196.37,"190,46",3177,454.0,2020-08-25,07.10.2025,30.0,0
+SUP046,Eraslan Durmuş Elektrik Tic.,Elektronik,ÇORUM,KÜÇÜK,2011,1121245.40,39,16.0,164.70,175.83,"172,99","161,51",5855,702.0,27/08/2024,25-10-25,30.0,Hayır
+SUP032,Alemdar Türk Çelik San. Tic. Ltd. Şti.,Metal ve Çelik,Kocaeli,ORTA,1977,"5.384.856,04",43,13.0,967.50,"956,38","959,68","828,24",25118,2433.0,23.08.2017,2025-03-06,90.0,true
+SUP035,Sensoy Plastik Tic.,Plastik ve Kauçuk,çorum,Küçük,1985,1319918.55,34,10.0,"332,10",342.84,"321,50",317.83,11597,1807.0,17.01.2022,22/02/2025,45.0,hayır
+SUP045,Tevetoglu Holding A.S.,  Lojistik  ,Mersin,büyük,1958,158696216.90,113,5.0,"3.153,69",2714.56,"2.677,11",2778.01,493160,85075.0,28.03.2023,03-07-25,45.0,Yes
+SUP085,  Akar Akar Ambalaj Tic.  ,Ambalaj,  Adana  ,KÜÇÜK,1999,"3.461.541,30",28,11.0,,"353,65",347.39,,12731,1342.0,20/07/2018,22-03-25,90.0,0
+SUP017,Ertaş Duran Kauçuk San. ve Tic. A.Ş.,Plastik ve Kauçuk,KONYA,Medium,1990.0,"7.214.981,59",123,6.0,"158,83",142.92,136.30,149.89,94696,12795.0,06.06.2017,,90.0,evet
+SUP066,İHSANOĞLU DURAN İÇECEK SAN. TIC. LTD. ŞTI.,Gıda ve İçecek,Mersin,Orta,2006.0,24319215.19,100,31.0,810.93,783.49,"723,30",761.16,78021,10163.0,2023-11-22,,90.0,Yes
+SUP008,Dumanlı Kimyasal Ürünler San. ve Tic. A.Ş.,Kimya,Kayseri,orta,2007,13857348.37,135,25.0,480.22,479.46,"481,19",552.31,86622,15253.0,30/10/2023,28/02/2025,30.0,false
+SUP070,Yüksel Bilgin Tekstil Tic.,Tekstil,MERSIN,Küçük,1994,"2.068.745,69",45,21.0,56.11,"49,24",48.51,46.52,7184,1307.0,16.05.2024,12-12-24,60.0,0
+SUP057,Demir Lojistik San. ve Tic. A.S.,LOJISTIK,Tekirdağ,Medium,1994,3311264.08,116,17.0,1159.15,,1197.46,1058.82,47093,851.0,02/01/2025,25-09-24,45.0,evet
+SUP020,Akar İplik Tic.,Tekstil,Adana,KÜÇÜK,2015,2085973.97,47,11.0,,221.25,"218,49","212,03",12554,3131.0,05-11-22,02-12-25,45.0,evet
+SUP071,  Yıldırım Ambalaj Tic.  ,Ambalaj,MANISA,Small,2017,3023226.30,40,9.0,214.63,219.23,"224,41","233,58",4493,441.0,12-10-17,30-05-25,45.0,0
+SUP026,  Ülker Konfeksiyon Ltd. Şti.  ,Tekstil,DIYARBAKIR,Small,1993,2602886.50,15,3.0,"190,43",192.53,"217,82",207.26,10892,1054.0,26-09-22,19.02.2025,,Hayır
+SUP054,akar manço elektrik san. tic. ltd. şti.,ELEKTRONIK,mersin,orta,2006.0,"12.859.840,09",50,6.0,841.04,,"938,04",850.35,41635,224.0,30/04/2025,2025-12-27,30.0,EVET
+SUP014,KISAKÜREK KAUÇUK LTD. ŞTI.,Plastik ve Kauçuk,Ankara,küçük,2006,230981.90,51,6.0,"187,13",174.30,"178,04",184.03,6618,1314.0,2018-06-07,,45.0,HAYIR
+SUP062,Erdoğan İnönü Makine Tic.,Makine İmalat,SAMSUN,KÜÇÜK,2014,424042.08,48,9.0,"126,84",134.79,140.30,"155,85",8199,649.0,16.12.2024,,45.0,hayır
+SUP004,ŞAFAK TÜRK NAKLIYAT SAN. VE TIC. A.Ş.,Lojistik,Trabzon,orta,1979,"4.008.136,44",55,5.0,"145,53","153,28","161,51",168.82,59615,2244.0,04-03-18,2025-12-12,45.0,false
+SUP018,kısakürek karton ltd. şti.,AMBALAJ,Konya,Small,1985.0,"3.880.635,59",25,8.0,"337,03",327.24,,337.17,14827,465.0,25-10-18,27-08-26,45.0,HAYIR
+SUP039,ZENGIN ŞAFAK OTO YEDEK PARÇA HOLDING A.Ş.,Otomotiv Yan Sanayi,denizli,Büyük,1979.0,"41.334.256,89",317,7.0,950.12,959.80,"964,95","993,20",309471,30634.0,28.02.2021,13-04-26,90.0,evet
+SUP009,Bilge Gıda Tic.,GIDA VE İÇECEK,  Bursa  ,Küçük,2018,"1.117.944,36",60,20.0,195.63,211.97,"200,77",201.70,11649,2523.0,2021-06-04,2026-05-31,30.0,false
+SUP068,şensoy i̇nşaat malzemeleri tic.,İnşaat Malzemeleri,Gaziantep,Küçük,2008.0,"2.547.140,41",42,16.0,"379,44","420,44",,"383,42",14015,1338.0,25-06-23,13-02-26,90.0,HAYIR
+SUP007,Şensoy Sezer Oto Yedek Parça Ltd. Şti.,Otomotiv Yan Sanayi,tekirdağ,küçük,2014.0,"700.055,62",23,10.0,380.00,"373,34","313,87","320,37",9792,1706.0,28/01/2020,20-03-26,45.0,
+SUP037,eraslan metal san. ve tic. a.ş.,Metal ve Çelik,SAKARYA,ORTA,1984.0,"3.537.358,53",51,,1077.65,1137.98,"1.085,97","1.049,19",117272,8967.0,01-07-24,29.12.2024,45.0,No
+SUP077,YAMAN GÜL KAUÇUK LTD. ŞTI.,PLASTIK VE KAUÇUK,TRABZON,küçük,1991,1858162.42,28,6.0,"308,12","309,02",296.27,293.94,4227,559.0,2020-05-03,02.11.2025,60.0,
+SUP063,ülker plastik san. ve tic. a.ş.,  Plastik ve Kauçuk  ,İSTANBUL,Medium,1984,"22.985.051,79",115,26.0,"964,72",973.21,"1.043,66","992,51",96662,11697.0,31/10/2018,,45.0,EVET
+SUP051,İnönü Karton Ltd. Şti.,  Ambalaj  ,  Malatya  ,Küçük,,"3.867.073,87",16,11.0,,"351,97","323,50",337.92,7602,571.0,04-03-21,03-10-25,60.0,hayır
+SUP047,Gül Demir İplik San. Tic. Ltd. Şti.,Tekstil,  Bursa  ,Medium,1987,"21.463.034,62",84,29.0,"785,47","856,35","720,14","767,30",39389,3691.0,20.11.2016,20.02.2026,45.0,Yes
+SUP084,bilge i̇çecek ltd. şti.,Gıda ve İçecek,  Şanlıurfa  ,Small,2008,2193781.64,15,0.0,"156,24",155.53,150.13,"150,70",5335,245.0,19/06/2022,24/05/2026,60.0,false
+SUP016,Eraslan Mobilya San. ve Tic. A.Ş.,Mobilya,Konya,orta,2002.0,10794546.46,113,21.0,320.12,341.04,342.35,320.21,71953,18671.0,18.07.2022,2025-12-22,90.0,hayır
+SUP028,ŞENER AKSU ÇELIK LTD. ŞTI.,metal ve çelik,eskişehir,KÜÇÜK,,1511662.74,60,13.0,37.77,38.36,"39,06","42,61",14601,2758.0,2017-11-27,27/12/2025,90.0,0
+SUP042,Demir Makine İmalat Tic.,makine i̇malat,Bursa,Small,2011,389722.99,19,1.0,"96,10",94.09,98.77,106.40,12073,1065.0,2017-06-29,10.07.2026,90.0,
+SUP059,Yorulmaz Tekstil Tic.,Tekstil,,küçük,1988,734148.98,26,5.0,"199,54",189.65,,207.33,14618,625.0,,14.03.2025,60.0,evet
+SUP027,Ihsanoglu Tarhan Makine Ltd. Sti.,MAKINE İMALAT,ÇORUM,KÜÇÜK,2008.0,"2.392.661,83",37,9.0,24.72,"26,91","28,05",27.82,9689,162.0,26-03-21,09-03-26,45.0,
+SUP049,Arslan Şafak Konfeksiyon Tic.,Tekstil,SAKARYA,Küçük,1989,"2.429.576,77",29,5.0,289.22,"296,93",290.50,"310,71",9933,688.0,24/06/2022,,45.0,true
+SUP025,Arsoy Gıda Tic.,GIDA VE İÇECEK,Mersin,Small,2006.0,933849.65,26,4.0,,"310,47","304,07",312.42,2391,188.0,24-11-22,2025-01-14,60.0,
+SUP044,  Erdoğan Mobilya San. ve Tic. A.Ş.  ,mobilya,  Denizli  ,Medium,,"18.931.990,31",68,6.0,336.47,,398.39,386.17,73993,5890.0,16.11.2023,,,false
+SUP082,ŞENSOY ŞENSOY KAUÇUK SAN. VE TIC. A.Ş.,Plastik ve Kauçuk,  İstanbul  ,Orta,1997,7818099.86,139,3.0,"1.333,06",1391.06,"1.447,81",,107605,8165.0,12-08-17,15.02.2026,45.0,0
+SUP076,ÜLKER SOYLU KAUÇUK SAN. VE TIC. A.Ş.,plastik ve kauçuk,Van,Orta,2006,"22.192.426,38",50,5.0,1045.90,1140.08,"1.198,24",,53065,,27/09/2020,14/04/2025,30.0,hayır
+SUP058,Karadeniz San. ve Tic. A.Ş.,Lojistik,İstanbul,Large,1986,"65.494.292,34",249,5.0,4599.71,5000.82,"5.474,77",5303.02,811295,41251.0,2022-11-13,24/07/2026,90.0,1
+SUP033,Aslan Yapı San. ve Tic. A.Ş.,İnşaat Malzemeleri,Mersin,Medium,1975,14438247.67,117,17.0,179.97,155.11,"141,01",152.58,77033,8015.0,22.01.2022,2025-07-18,45.0,EVET
+SUP081,ERTAŞ BILGE İNŞAAT MALZEMELERI TIC.,İnşaat Malzemeleri,Ankara,küçük,1986,"3.915.086,27",40,8.0,"105,92",97.51,"107,12",113.61,2247,270.0,2023-11-25,2025-07-26,90.0,
+SUP060,Durdu Akça Taşımacılık Ltd. Şti.,Lojistik,MANISA,KÜÇÜK,2013,3647741.85,58,,"271,74",262.44,,256.38,7318,712.0,15/10/2020,23.07.2026,60.0,HAYIR
+SUP064,AKSU KIMYASAL ÜRÜNLER TIC.,KIMYA,Samsun,Small,2004,"2.843.974,69",48,8.0,363.10,"367,76",373.64,,12770,2909.0,11/10/2024,11/11/2025,60.0,false
+SUP074,AKÇAY TÜRK MAKINE SAN. VE TIC. A.Ş.,makine i̇malat,Kayseri,orta,2007.0,24237778.98,143,,"477,01",519.27,562.27,541.17,59968,7980.0,2020-08-02,01.11.2024,60.0,hayır
+SUP038,Koruturk Otomotiv San. ve Tic. A.S.,Otomotiv Yan Sanayi,Bursa,ORTA,1984,"17.433.276,24",98,30.0,"1.086,23","1.030,16",1006.39,"1.067,15",64321,10538.0,2019-01-25,2025-03-20,30.0,hayır
+SUP030,İHSANOĞLU ŞENER ELEKTRONIK SAN. VE TIC. A.Ş.,Elektronik,İstanbul,BÜYÜK,,"150.653.856,90",236,28.0,4166.61,4431.22,"3.963,61",3682.22,246931,27010.0,23/02/2023,07.04.2025,90.0,1
+SUP002,  Yaman Taşımacılık Tic.  ,LOJISTIK,,Küçük,2002,"3.266.307,26",48,4.0,"234,98","227,71","219,51",231.99,934,189.0,09-11-20,02/03/2025,30.0,false
+SUP053,  Şener Kauçuk San. Tic. Ltd. Şti.  ,Plastik ve Kauçuk,Kayseri,Orta,,"10.487.454,55",88,8.0,89.68,"84,92",87.85,"78,61",54092,4004.0,08-10-21,25.06.2026,,0
+SUP022,  Arslan Çorlu Mobilya Ltd. Şti.  ,Mobilya,  Konya  ,küçük,2000,1172615.87,46,23.0,142.95,"141,83","142,66",147.75,9065,1660.0,2020-07-27,,45.0,hayır
+SUP003,Korutürk İnşaat Malzemeleri Ltd. Şti.,İnşaat Malzemeleri,KONYA,Küçük,2007,3412853.31,31,11.0,"82,58",83.43,82.85,"81,36",5052,1132.0,08/06/2018,17/02/2026,60.0,false
+SUP024,ERTAŞ GRUP A.Ş.,METAL VE ÇELIK,Balıkesir,Büyük,1991.0,"104.630.510,82",245,28.0,2150.24,,"2.162,30",2353.70,245409,12498.0,2023-02-28,2025-04-13,60.0,Hayır
+SUP080,Şafak Ergül Kimyasal Ürünler Tic.,Kimya,Gaziantep,Small,2012,2807707.02,53,18.0,"85,06",87.97,"91,77",95.27,9455,1702.0,05-05-18,,90.0,No
+SUP075,Zorlu Grup A.Ş.,Ambalaj,Mersin,BÜYÜK,1959.0,"31.972.519,72",151,22.0,"3.781,60",3866.52,3846.38,"4.032,69",631499,27055.0,25-04-22,2024-11-04,60.0,1
+SUP021,Ülker Gıda San. ve Tic. A.Ş.,Gıda ve İçecek,  Kayseri  ,ORTA,1990.0,15736219.27,48,5.0,114.40,"106,03",101.77,"108,86",87992,8313.0,16.11.2017,15/10/2024,30.0,hayır
+SUP061,GÜL KIMYA HOLDING A.Ş.,Kimya,Gaziantep,BÜYÜK,1960,58378428.43,391,22.0,408.02,"434,54","412,37",414.96,731194,24700.0,2018-01-12,15.11.2024,30.0,Yes
+SUP072,BILGIN YILMAZ YAPI TIC.,  İnşaat Malzemeleri  ,  Çorum  ,KÜÇÜK,2016.0,3481253.29,31,6.0,"204,62",198.68,194.86,"199,82",13405,2298.0,,11-12-25,90.0,No
+SUP015,Akdeniz Makine Tic.,Makine İmalat,BURSA,Küçük,2002.0,"2.725.564,45",50,16.0,115.54,122.40,124.10,125.41,1464,176.0,2018-05-03,2025-06-15,45.0,HAYIR
+SUP052,  Çamurcuoğlu Sakarya Karton San. ve Tic. A.Ş.  ,ambalaj,GAZIANTEP,BÜYÜK,1967,161060989.44,338,66.0,"4.209,79","4.458,01",4903.49,,536732,78230.0,2019-09-25,09/10/2025,45.0,No
