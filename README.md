@@ -10,13 +10,12 @@ supplier — then visualized in a Power BI dashboard.
 
 ## Motivation
 
-I have a Business Administration and Economics background, not an engineering one. During
-an internship in Roketsan's Procurement Directorate (Catalog Management), I worked on
-cleaning and migrating real product data and automating parts of that process with VBA —
-and saw first-hand how much of procurement work is really data-quality work. This project
-is a self-designed, end-to-end attempt at the kind of tool that experience pointed toward:
-turning messy, real-world-style supplier data into a risk score that can actually be
-explained and defended, not just computed.
+I have a Business Administration and Economics background, not an engineering one. But
+through the experience I gained at defense industry companies and the reading I've done,
+I kept noticing the same gap in procurement and supply chain work: reliable, clean
+supplier data. This project is a self-designed, end-to-end attempt at the kind of tool
+that observation pointed toward: turning messy, real-world-style supplier data into a
+risk score that can actually be explained and defended, not just computed.
 
 ## Pipeline
 
