@@ -138,8 +138,8 @@ the whole portfolio, writing `reports/sector_concentration.csv`. This closes a l
 the v1 README documented explicitly: a supplier that's 12% of all purchasing can look safe
 under portfolio-wide HHI while being 60%+ of a smaller sector — a real single point of
 failure that portfolio-wide HHI alone can't see. On this project's own synthetic dataset,
-the gap is stark: **portfolio HHI is low, but 11 of 12 sectors are individually highly
-concentrated** — exactly the scenario this metric exists to catch.
+the gap is stark: **portfolio HHI is low (658/10,000), but every one of the 12 sectors is
+individually highly concentrated** — exactly the scenario this metric exists to catch.
 
 ### Due-diligence red flags
 
@@ -148,6 +148,25 @@ Three qualitative, binary signals — `has_export_documentation`, `requires_full
 checklist (see `docs/research_v2.md`), not derived from a formula and not blended into
 either risk score. Included as an explicit example that a purely numeric scorecard misses
 signals a real due-diligence process would catch.
+
+### CBAM/CSRD compliance exposure
+
+`cbam_compliance_risk` is a boolean applicability + gap check, not a score — deliberately
+not blended into either risk axis, for the same reason those two stay separate from each
+other: a compliance exposure is a different *kind* of risk than operational or financial
+performance. A supplier is flagged only when **all three** hold: it's in a CBAM-covered
+sector (`config/cbam_sectors.yaml` — only `Metal ve Çelik` maps honestly onto this
+project's twelve-sector list, out of CBAM's real six covered product categories), it
+exports to the EU, and it lacks the emissions-reporting capability CBAM/CSRD actually requires.
+
+The EU's Carbon Border Adjustment Mechanism enters its **definitive regime in 2026** and
+names Turkey specifically — alongside China and India — as among the most-exposed
+countries, particularly for steel/aluminum exports. Non-compliance risk isn't just
+administrative: inaccurate or missing embedded-carbon reporting can trigger EU financial
+penalties, import delays, and market-access restrictions (see `docs/research_v2.md`
+section 4.2). On this project's own synthetic dataset, only 1 of 85 suppliers meets all
+three conditions — the point of a boolean applicability check rather than a broad estimate
+is naming a specific, actionable supplier, not a vague "some suppliers might be affected."
 
 ### AHP-derived weights
 
@@ -168,7 +187,7 @@ python src/derive_ahp_weights.py --apply   # also writes the derived weights int
 The pairwise judgments live in `config/ahp_pairwise_comparisons.yaml`, each with its own
 documented rationale. For this project's own judgments: Consistency Ratio = 0.004 (well
 under Saaty's 0.10 threshold), and the derived weights (≈42/23/23/12) produce a ranking
-nearly identical to the asserted default (Spearman rank correlation ≈0.99) — see the
+nearly identical to the asserted default (Spearman rank correlation ≈0.985) — see the
 notebook's "AHP-derived weights" section for the full walkthrough. This is presented
 honestly as a **consistency check**, not an independent second opinion: the pairwise
 judgments were informed by the same underlying reasoning as the original weights. What AHP
@@ -200,8 +219,8 @@ just passes through, proving the profile-driven engine really is source-agnostic
 `compute_metrics` / `compute_risk_score` / `compute_financial_risk_score` functions as the
 point-in-time pipeline — not a parallel reimplementation — then flags every **risk
 migration**: a period-to-period transition into a strictly worse risk category. On this
-project's own synthetic history, that surfaced 29 operational and 26 financial risk
-migrations across 26 and 24 suppliers respectively — drift a one-time assessment would
+project's own synthetic history, that surfaced 37 operational and 29 financial risk
+migrations across 35 and 26 suppliers respectively — drift a one-time assessment would
 never have caught. See the notebook's "Risk trend over time" section for the full walkthrough.
 
 ## Project structure
@@ -210,6 +229,7 @@ never have caught. See the notebook's "Risk trend over time" section for the ful
 config/
   scoring_weights.yaml         # editable risk weights + risk-level thresholds
   ahp_pairwise_comparisons.yaml  # AHP pairwise judgments used to derive/cross-check those weights
+  cbam_sectors.yaml             # which sectors fall under the EU's CBAM regulation
   erp_profiles/                # YAML cleaning profiles (one per data source)
     synthetic_generator.yaml   # profile for this project's own synthetic data
     sap_export_example.yaml    # illustrative SAP-style profile (NOT verified against a real export)
@@ -387,11 +407,11 @@ someone can't explain is a risk score no one will trust.
 
 **v2 complete:** profile-driven cleaning engine, KOSGEB-aligned company sizing, VKN
 validation, portfolio + per-sector HHI-based concentration risk, AI-assisted profile
-drafting, a separate financial risk axis, due-diligence red flags, AHP-derived weight
-cross-check, multi-period risk trend + migration detection — all reflected in the data
-generation, cleaning, scoring, and notebook. The DAX measures for the new axes are written
-(`reports/dax_measures.txt`); adding them to the `.pbix` itself is a manual Power BI
-Desktop step, not yet done (see [Dashboard](#dashboard)).
+drafting, a separate financial risk axis, due-diligence red flags, a CBAM/CSRD compliance
+exposure flag, AHP-derived weight cross-check, multi-period risk trend + migration
+detection — all reflected in the data generation, cleaning, scoring, and notebook. The DAX
+measures for the new axes are written (`reports/dax_measures.txt`); adding them to the
+`.pbix` itself is a manual Power BI Desktop step, not yet done (see [Dashboard](#dashboard)).
 
 **Open, tracked in `docs/research_v2.md`:** a geopolitical/country risk factor, and real
 (verified-against-an-actual-export) Logo/Netsis and SAP profile support — the two example

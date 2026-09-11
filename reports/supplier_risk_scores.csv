@@ -1,86 +1,86 @@
-﻿supplier_id,company_name,sector,city,company_size,delivery_delay_rate,price_volatility,supplier_dependency_ratio,quality_return_rate,delivery_delay_rate_score,price_volatility_score,supplier_dependency_ratio_score,quality_return_rate_score,risk_score,risk_level,has_estimated_inputs,financial_risk_score,financial_risk_level,financial_risk_has_estimated_inputs
-SUP066,Hançer Gülen Mobilya Tic.,Mobilya,,Micro,0.5556,0.0521,0.0007,0.741,100.0,40.7,0.0,100.0,60.2,High,True,29.9,Medium,False
-SUP063,Aksu San. ve Tic. A.Ş.,Otomotiv Yan Sanayi,Trabzon,Large,0.3333,0.0385,0.1405,0.0672,60.0,29.9,100.0,8.7,54.8,High,False,17.5,Low,False
-SUP021,Arslan Çorlu Kauçuk Tic.,Plastik ve Kauçuk,Çorum,Small,0.5455,0.0605,0.0012,0.0709,98.2,47.4,0.0,9.3,47.6,High,False,80.8,High,False
-SUP018,Şener Mansız Otomotiv Tic.,Otomotiv Yan Sanayi,Denizli,Micro,0.3793,0.0784,0.0009,0.1502,68.3,61.5,0.0,20.0,42.3,High,False,49.1,High,False
-SUP006,Yıldırım Otomotiv Ltd. Şti.,Otomotiv Yan Sanayi,Kocaeli,Small,0.5455,0.0135,0.0029,0.2011,98.2,10.1,0.0,26.9,40.9,High,False,33.4,Medium,False
-SUP062,Ülker Mobilya Tic.,Mobilya,Van,Micro,0.5,0.0317,0.0001,0.1315,90.0,24.5,0.0,17.5,40.2,High,False,27.5,Medium,False
-SUP022,Sakarya Kisakürek İplik Ltd. Şti.,Tekstil,Manisa,Micro,0.4167,0.0644,0.0002,0.0289,75.0,50.5,0.0,3.6,39.4,High,False,26.8,Low,False
-SUP040,Çorlu İnönü Lojistik San. ve Tic. A.Ş.,Lojistik,Denizli,Medium,0.3827,0.0726,0.0084,0.035,68.9,56.9,0.4,4.4,39.1,High,False,26.5,Low,False
-SUP032,Çamurcuoğlu Ambalaj Ltd. Şti.,Ambalaj,İstanbul,Small,0.3621,0.0764,0.0059,0.0416,65.2,59.9,0.2,5.3,38.6,High,False,23.2,Low,False
-SUP012,Şama İçecek Tic.,Gıda ve İçecek,İzmir,Micro,0.4615,0.0262,0.0003,0.2067,83.1,20.1,0.0,27.6,38.3,High,False,23.8,Low,True
-SUP042,Aksu Çetin Elektronik San. ve Tic. A.Ş.,Elektronik,Denizli,Medium,0.1304,0.1269,0.0157,0.2214,23.5,100.0,1.2,29.6,38.0,High,False,20.5,Low,False
-SUP024,Arsoy Mobilya San. ve Tic. A.Ş.,Mobilya,Konya,Medium,0.3649,0.0614,0.008,0.141,65.7,48.1,0.3,18.7,37.9,High,False,16.3,Low,True
-SUP029,Hayrioğlu Makine Tic.,Makine İmalat,İstanbul,Small,0.4643,0.0369,0.0006,0.0689,83.6,28.7,0.0,9.0,37.8,High,False,18.5,Low,False
-SUP059,Durdu Kauçuk Ltd. Şti.,Plastik ve Kauçuk,Konya,Small,0.3235,0.0591,0.001,0.2666,58.2,46.2,0.0,35.8,37.3,Medium,False,26.9,Low,False
-SUP076,İhsanoğlu Nakliyat Ltd. Şti.,Lojistik,Sakarya,Micro,0.2632,0.0876,0.0001,0.1293,47.4,68.8,0.0,17.2,36.4,Medium,False,24.7,Low,False
-SUP015,Türk Gül Kimya Tic.,Kimya,Sakarya,Micro,0.3,0.069,0.0001,0.1917,54.0,54.1,0.0,25.6,36.3,Medium,False,21.1,Low,False
-SUP080,Seven Ertaş Karton Tic.,Ambalaj,Manisa,Micro,0.3333,0.0621,0.0009,0.1273,60.0,48.6,0.0,16.9,35.7,Medium,False,23.9,Low,False
-SUP054,Öcalan Makine İmalat San. Tic. Ltd. Şti.,Makine İmalat,Kayseri,Medium,0.3465,0.0569,0.0244,0.0946,62.4,44.5,3.0,12.5,35.6,Medium,False,56.5,High,False
-SUP072,Erdoğan Akçay Yapi Ltd. Şti.,İnşaat Malzemeleri,Eskişehir,Small,0.3684,0.061,0.004,0.0026,66.3,47.8,0.1,0.0,35.2,Medium,False,21.4,Low,False
-SUP003,Korutürk Gıda San. ve Tic. A.Ş.,Gıda ve İçecek,Sakarya,Medium,0.2759,0.0666,0.0205,0.2081,49.7,52.2,2.1,27.8,35.1,Medium,False,14.8,Low,False
-SUP002,Bilgin Yaman Çelik Ltd. Şti.,Metal ve Çelik,Çorum,Micro,0.5,0.0095,0.0003,0.0757,90.0,6.9,0.0,9.9,34.7,Medium,False,21.1,Low,False
-SUP050,İnönü Kimyasal Ürünler Ltd. Şti.,Kimya,Adana,Small,0.3509,0.06,0.0016,0.0333,63.2,46.9,0.0,4.2,34.5,Medium,False,20.8,Low,True
-SUP055,Hayrioğlu Soylu Makine İmalat Ltd. Şti.,Makine İmalat,Gaziantep,Micro,0.3103,0.0715,0.0001,0.0508,55.9,56.1,0.0,6.5,34.5,Medium,False,41.8,High,True
-SUP039,Yaman Karton Tic.,Ambalaj,Tekirdağ,Small,0.3214,0.0684,0.0047,0.0323,57.9,53.6,0.1,4.0,34.3,Medium,True,22.3,Low,False
-SUP030,Alemdar Türk Yapı Ltd. Şti.,İnşaat Malzemeleri,Antalya,Small,0.3333,0.0448,0.0034,0.1808,60.0,34.9,0.1,24.1,33.4,Medium,True,31.3,Medium,False
-SUP001,Korutürk Tekstil San. Tic. Ltd. Şti.,Tekstil,Manisa,Medium,0.2836,0.0602,0.0023,0.1432,51.0,47.1,0.0,19.0,32.5,Medium,False,13.8,Low,False
-SUP070,Bilgin Yılmaz Demir Çelik Tic.,Metal ve Çelik,Gaziantep,Micro,0.3,0.0251,0.0002,0.3869,54.0,19.3,0.0,52.0,31.5,Medium,True,36.6,High,False
-SUP023,Şener Karadeniz Kauçuk Ltd. Şti.,Plastik ve Kauçuk,Aydın,Small,0.3542,0.0343,0.0085,0.1037,63.7,26.5,0.4,13.7,31.1,Medium,False,34.4,Medium,False
-SUP064,Bilge Elektronik Ltd. Şti.,Elektronik,Trabzon,Micro,0.2,0.0708,0.0004,0.1981,36.0,55.5,0.0,26.5,30.5,Medium,False,27.7,Medium,False
-SUP085,Şafak Nakliyat Ltd. Şti.,Lojistik,Sakarya,Small,0.3137,0.0319,0.0041,0.2211,56.5,24.6,0.1,29.6,30.4,Medium,True,29.3,Medium,False
-SUP051,Çamurcuoğlu Sakarya Plastik San. ve Tic. A.Ş.,Plastik ve Kauçuk,Gaziantep,Medium,0.281,0.0355,0.0226,0.2532,50.6,27.5,2.6,33.9,30.3,Medium,False,39.8,High,False
-SUP049,Yılmaz Demir Çelik San. ve Tic. A.Ş.,Metal ve Çelik,Tekirdağ,Medium,0.3061,0.0433,0.0007,0.0706,55.1,33.7,0.0,9.2,29.1,Medium,False,14.2,Low,True
-SUP011,Manco Plastik Tic.,Plastik ve Kauçuk,Kayseri,Micro,0.2857,0.0365,0.0038,0.1961,51.4,28.3,0.1,26.2,29.0,Medium,True,18.1,Low,False
-SUP041,Demir Mobilya San. Tic. Ltd. Şti.,Mobilya,Sakarya,Medium,0.2283,0.0578,0.0133,0.1485,41.1,45.2,0.9,19.8,28.9,Medium,True,20.5,Low,True
-SUP008,Dumanli Metal San. Tic. Ltd. Şti.,Metal ve Çelik,Konya,Medium,0.3511,0.0174,0.0337,0.0834,63.2,13.2,5.8,10.9,28.5,Low,False,32.5,Medium,False
-SUP058,Yorulmaz Kimya Ltd. Şti.,Kimya,İstanbul,Small,0.2353,0.0526,0.0048,0.1591,42.4,41.1,0.1,21.2,28.3,Low,False,18.1,Low,False
-SUP057,Karadeniz Sezgin Çelik Grup A.Ş.,Metal ve Çelik,Kocaeli,Large,0.2336,0.0504,0.0424,0.0681,42.1,39.3,9.1,8.9,28.2,Low,True,10.5,Low,False
-SUP068,Yüksel Bilgin Mobilya Tic.,Mobilya,İzmir,Small,0.25,0.0494,0.0081,0.1196,45.0,38.5,0.3,15.8,27.8,Low,False,31.1,Medium,False
-SUP037,Zengin Grup A.Ş.,Mobilya,Ankara,Large,0.0237,0.0584,0.0978,0.1163,4.3,45.7,48.5,15.4,27.4,Low,False,0.9,Low,False
-SUP014,Akdeniz Ergül İnşaat Malzemeleri San. ve Tic. A.Ş.,İnşaat Malzemeleri,İstanbul,Large,0.0044,0.0762,0.085,0.1253,0.8,59.8,36.7,16.6,26.9,Low,True,13.9,Low,False
-SUP025,Ülker Aslan Ambalaj San. ve Tic. A.Ş.,Ambalaj,Adana,Medium,0.2793,0.0415,0.0248,0.0167,50.3,32.3,3.1,1.9,26.7,Low,False,16.0,Low,True
-SUP010,Şafak Mobilya Tic.,Mobilya,Kayseri,Micro,0.3,0.0245,0.0002,0.1489,54.0,18.7,0.0,19.8,26.6,Low,False,36.8,High,False
-SUP016,Demir Kimya Tic.,Kimya,Çorum,Micro,0.3333,0.0249,0.0004,0.0361,60.0,19.1,0.0,4.5,26.5,Low,False,21.4,Low,False
-SUP028,Şener Sezer Elektronik San. Tic. Ltd. Şti.,Elektronik,Kocaeli,Medium,0.2734,0.0389,0.0202,0.0473,49.2,30.2,2.1,6.0,26.2,Low,False,23.5,Low,False
-SUP067,Akcay Firat Karton Ltd. Şti.,Ambalaj,Ankara,Micro,0.2222,0.045,0.0001,0.1345,40.0,35.0,0.0,17.9,25.4,Low,True,31.3,Medium,False
-SUP083,Bilge Sakarya Plastik Tic.,Plastik ve Kauçuk,Adana,Small,0.25,0.0262,0.002,0.208,45.0,20.1,0.0,27.8,25.0,Low,False,20.2,Low,False
-SUP077,Çetin Ambalaj Tic.,Ambalaj,Tekirdağ,Small,0.3103,0.0239,0.003,0.0414,55.9,18.3,0.0,5.3,24.9,Low,False,66.5,High,False
-SUP081,Şensoy Şensoy Kimya San. Tic. Ltd. Şti.,Kimya,Sakarya,Medium,0.2323,0.0388,0.013,0.1264,41.8,30.1,0.9,16.8,24.9,Low,False,7.5,Low,False
-SUP046,Gul Demir Tasimacilik Ltd. Şti.,Lojistik,Eskişehir,Micro,0.1875,0.0623,0.0007,0.0259,33.8,48.8,0.0,3.2,24.5,Low,False,20.9,Low,False
-SUP047,Şensoy Şama İplik San. Tic. Ltd. Şti.,Tekstil,Adana,Medium,0.2549,0.03,0.0138,0.0862,45.9,23.2,1.0,11.3,23.8,Low,False,34.9,Medium,False
-SUP061,Erdoğan İnönü Oto Yedek Parça San. Tic. Ltd. Şti.,Otomotiv Yan Sanayi,Kayseri,Medium,0.2316,0.0373,0.0057,0.0758,41.7,29.0,0.2,9.9,23.4,Low,False,15.1,Low,False
-SUP043,Erdoğan Kısakürek Makine İmalat Tic.,Makine İmalat,Bursa,Small,0.2143,0.0371,0.0029,0.1341,38.6,28.8,0.0,17.8,23.4,Low,True,19.3,Low,False
-SUP069,Yildirim Plastik San. ve Tic. A.Ş.,Plastik ve Kauçuk,Denizli,Medium,0.0476,0.0914,0.0038,0.1206,8.6,71.8,0.1,16.0,23.4,Low,True,11.8,Low,True
-SUP084,Akar Ambalaj Tic.,Ambalaj,Denizli,Micro,0.125,0.0665,0.0002,0.0992,22.5,52.1,0.0,13.1,22.9,Low,True,24.2,Low,False
-SUP036,Durmuş Tekstil San. Tic. Ltd. Şti.,Tekstil,Manisa,Medium,0.0889,0.0552,0.0038,0.2477,16.0,43.2,0.1,33.2,21.4,Low,True,23.0,Low,False
-SUP045,Bilge Otomotiv Tic.,Otomotiv Yan Sanayi,Eskişehir,Small,0.1333,0.05,0.0037,0.1613,24.0,39.0,0.1,21.5,21.4,Low,False,28.4,Medium,False
-SUP034,Çamurcuoğlu Şensoy Karton Tic.,Ambalaj,Şanlıurfa,Small,0.1667,0.0469,0.0048,0.0557,30.0,36.6,0.1,7.2,20.8,Low,False,22.6,Low,True
-SUP004,Şafak Türk Plastik Ltd. Şti.,Plastik ve Kauçuk,Gaziantep,Small,0.1538,0.0421,0.0021,0.1338,27.7,32.8,0.0,17.8,20.6,Low,False,16.3,Low,True
-SUP071,Şener Ambalaj Tic.,Ambalaj,Mersin,Small,0.0,0.1011,0.004,0.0208,0.0,79.6,0.1,2.5,20.3,Low,False,38.3,High,False
-SUP038,Zengin Gülen Plastik Tic.,Plastik ve Kauçuk,Kocaeli,Small,0.1818,0.034,0.0066,0.1011,32.7,26.3,0.2,13.3,20.1,Low,False,15.7,Low,False
-SUP009,Bilge Yılmaz Konfeksiyon Tic.,Tekstil,Şanlıurfa,Small,0.1333,0.0478,0.0015,0.1018,24.0,37.2,0.0,13.4,19.7,Low,False,30.9,Medium,False
-SUP020,Ülker Mobilya Ltd. Şti.,Mobilya,İzmir,Small,0.2222,0.0167,0.0038,0.1293,40.0,12.6,0.1,17.2,19.7,Low,False,79.2,High,False
-SUP017,Durmuş Makine San. Tic. Ltd. Şti.,Makine İmalat,Kocaeli,Medium,0.1311,0.0392,0.0038,0.1774,23.6,30.4,0.1,23.7,19.4,Low,True,21.1,Low,False
-SUP056,İhsanoğlu Gida San. ve Tic. A.Ş.,Gıda ve İçecek,Ankara,Medium,0.0139,0.0705,0.0332,0.1374,2.5,55.3,5.6,18.3,18.8,Low,False,10.0,Low,False
-SUP073,Şama Taşımacılık Tic.,Lojistik,Kayseri,Small,0.2414,0.0133,0.0084,0.0521,43.4,9.9,0.4,6.7,18.8,Low,True,23.8,Low,False
-SUP013,Kısakürek Makine Tic.,Makine İmalat,Bursa,Micro,0.1111,0.0507,0.0004,0.0295,20.0,39.6,0.0,3.6,17.4,Low,False,27.1,Medium,False
-SUP019,Akar Kimya San. Tic. Ltd. Şti.,Kimya,Manisa,Medium,0.0507,0.0691,0.0137,0.0032,9.1,54.2,1.0,0.1,17.0,Low,True,28.0,Medium,False
-SUP065,İhsanoğlu Lojistik Ltd. Şti.,Lojistik,Trabzon,Small,0.12,0.0412,0.0052,0.057,21.6,32.0,0.1,7.4,16.7,Low,False,15.7,Low,True
-SUP026,Şener Aksu Demir Çelik San. ve Tic. A.Ş.,Metal ve Çelik,Çorum,Medium,0.1273,0.0307,0.0121,0.1163,22.9,23.7,0.7,15.4,16.4,Low,True,34.2,Medium,False
-SUP082,Gülen Elektrik Ltd. Şti.,Elektronik,Adana,Small,0.1207,0.0351,0.0024,0.0868,21.7,27.2,0.0,11.4,16.1,Low,False,15.4,Low,False
-SUP060,Gül Metal San. ve Tic. A.Ş.,Metal ve Çelik,Balıkesir,Medium,0.1266,0.0195,0.0272,0.1692,22.8,14.8,3.7,22.6,16.0,Low,False,27.2,Medium,True
-SUP031,Aslan Yapi Tic.,İnşaat Malzemeleri,,Small,0.0968,0.0261,0.0038,0.1991,17.4,20.1,0.1,26.6,15.1,Low,True,34.4,Medium,True
-SUP005,Bilir Bilgin Tekstil San. ve Tic. A.Ş.,Tekstil,Van,Medium,0.0551,0.0404,0.0441,0.07,9.9,31.4,9.8,9.1,15.1,Low,True,22.0,Low,False
-SUP033,Şensoy Soylu Elektrik San. ve Tic. A.Ş.,Elektronik,Aydın,Large,0.048,0.0354,0.0498,0.028,8.6,27.5,12.6,3.4,13.6,Low,True,17.2,Low,False
-SUP075,Soylu Bilir Otomotiv Tic.,Otomotiv Yan Sanayi,Tekirdağ,Micro,0.0,0.0541,0.001,0.1316,0.0,42.3,0.0,17.5,13.2,Low,False,58.4,High,False
-SUP007,Şensoy Elektronik Tic.,Elektronik,Bursa,Small,0.0833,0.0308,0.0022,0.0768,15.0,23.8,0.0,10.0,12.7,Low,False,14.8,Low,False
-SUP048,Şafak Metal Ltd. Şti.,Metal ve Çelik,Mersin,Small,0.0811,0.0279,0.0042,0.0725,14.6,21.5,0.1,9.5,11.9,Low,False,36.2,High,False
-SUP052,Şener Zorlu Makine İmalat Ltd. Şti.,Makine İmalat,Tekirdağ,Small,0.0833,0.0257,0.0019,0.0525,15.0,19.7,0.0,6.8,11.2,Low,False,19.0,Low,True
-SUP074,Yüksel Kimya San. Tic. Ltd. Şti.,Kimya,Denizli,Medium,0.0631,0.0275,0.0096,0.091,11.4,21.2,0.5,12.0,11.2,Low,True,32.3,Medium,False
-SUP079,Ülker Şafak Plastik Tic.,Plastik ve Kauçuk,Gaziantep,Small,0.0435,0.0293,0.0011,0.1321,7.8,22.6,0.0,17.5,11.0,Low,False,28.7,Medium,False
-SUP044,Ertaş Plastik Ltd. Şti.,Plastik ve Kauçuk,İstanbul,Small,0.1064,0.0151,0.0031,0.0383,19.1,11.3,0.0,4.8,10.3,Low,False,21.7,Low,True
-SUP027,Ertaş Kısakürek İçecek San. Tic. Ltd. Şti.,Gıda ve İçecek,Tekirdağ,Medium,0.0331,0.0148,0.0342,0.1484,6.0,11.1,5.9,19.7,9.3,Low,False,14.2,Low,False
-SUP078,Seven Akar Yapı San. ve Tic. A.Ş.,İnşaat Malzemeleri,Adana,Medium,0.0155,0.0265,0.0408,0.0375,2.8,20.4,8.5,4.7,8.9,Low,False,9.9,Low,False
-SUP053,Arsoy Mobilya Tic.,Mobilya,Eskişehir,Small,0.0,0.0288,0.0018,0.1573,0.0,22.2,0.0,21.0,8.7,Low,False,41.0,High,False
-SUP035,Eraslan Yaman Kauçuk Tic.,Plastik ve Kauçuk,Van,Micro,0.0,0.0008,0.0006,0.059,0.0,0.0,0.0,7.6,1.1,Low,True,29.0,Medium,True
+﻿supplier_id,company_name,sector,city,company_size,delivery_delay_rate,price_volatility,supplier_dependency_ratio,quality_return_rate,delivery_delay_rate_score,price_volatility_score,supplier_dependency_ratio_score,quality_return_rate_score,risk_score,risk_level,has_estimated_inputs,financial_risk_score,financial_risk_level,financial_risk_has_estimated_inputs,cbam_compliance_risk
+SUP071,Demirel Makine İmalat Tic.,Makine İmalat,Eskişehir,Small,0.4872,0.1288,0.0014,0.1316,76.1,93.8,0.0,14.3,52.2,High,False,26.9,Low,False,False
+SUP066,Hançer Gülen Demir Çelik Ltd. Şti.,Metal ve Çelik,,Micro,0.4231,0.0781,0.0005,0.9117,66.1,55.6,0.0,100.0,52.0,High,True,40.8,High,False,False
+SUP030,Hayrioğlu Karadeniz Lojistik Ltd. Şti.,Lojistik,Denizli,Small,0.3889,0.1371,0.0011,0.0236,60.8,100.0,0.0,2.5,46.6,High,True,18.5,Low,False,False
+SUP007,Akar Demirel Makine İmalat Ltd. Şti.,Makine İmalat,Balıkesir,Micro,0.64,0.0437,0.0007,0.0619,100.0,29.8,0.0,6.7,43.5,High,False,72.0,High,False,False
+SUP020,Ülker Bilgin Kauçuk Tic.,Plastik ve Kauçuk,Kocaeli,Small,0.4545,0.0939,0.0008,0.0976,71.0,67.5,0.0,10.6,43.3,High,False,79.1,High,False,False
+SUP015,Eraslan Sezgin Nakliyat San. ve Tic. A.Ş.,Lojistik,Sakarya,Large,0.3,0.0103,0.1512,0.0364,46.9,4.7,100.0,3.9,43.2,High,False,13.6,Low,False,False
+SUP012,Manço Bilir Kimya Ltd. Şti.,Kimya,Adana,Small,0.5,0.0408,0.0014,0.2079,78.1,27.6,0.0,22.7,37.6,High,False,19.0,Low,True,False
+SUP024,Arsoy Yapı Ltd. Şti.,İnşaat Malzemeleri,Kocaeli,Small,0.4211,0.0614,0.0018,0.1558,65.8,43.1,0.0,17.0,36.4,High,False,19.1,Low,True,False
+SUP026,İhsanoglu Tarhan Yapi Ltd. Şti.,İnşaat Malzemeleri,Kocaeli,Micro,0.4167,0.0534,0.0001,0.237,65.1,37.1,0.0,25.9,35.9,High,True,32.6,Medium,False,False
+SUP018,Arslan İcecek Ltd. Şti.,Gıda ve İçecek,Konya,Small,0.4035,0.0665,0.0008,0.0613,63.0,46.9,0.0,6.6,34.8,High,False,28.1,Medium,False,False
+SUP078,Sakarya Ambalaj Tic.,Ambalaj,Denizli,Micro,0.5,0.0389,0.0001,0.0408,78.1,26.1,0.0,4.4,34.5,High,False,38.8,High,False,False
+SUP014,Ergül Kimyasal Ürünler Ltd. Şti.,Kimya,Mersin,Small,0.5714,0.0135,0.0021,0.0652,89.3,7.1,0.0,7.1,34.1,High,True,30.6,Medium,False,False
+SUP075,Soylu San. ve Tic. A.Ş.,İnşaat Malzemeleri,İzmir,Large,0.4216,0.0513,0.0036,0.1274,65.9,35.5,0.1,13.9,34.0,High,False,18.8,Low,False,False
+SUP028,Ertaş Kısakürek Taşımacılık Holding A.Ş.,Lojistik,İzmir,Large,0.2367,0.0387,0.0994,0.2182,37.0,26.0,43.2,23.8,33.8,Medium,False,28.8,Medium,False,False
+SUP034,Şensoy Soylu Mobilya Tic.,Mobilya,Balıkesir,Small,0.2264,0.1,0.0011,0.1868,35.4,72.1,0.0,20.4,33.5,Medium,False,23.6,Low,True,False
+SUP006,Tevetoğlu Otomotiv Tic.,Otomotiv Yan Sanayi,Eskişehir,Small,0.3448,0.0662,0.0008,0.1356,53.9,46.7,0.0,14.8,32.7,Medium,False,33.9,Medium,False,False
+SUP042,Demir Manço Oto Yedek Parça Ltd. Şti.,Otomotiv Yan Sanayi,Manisa,Small,0.2,0.1022,0.0023,0.0972,31.2,73.8,0.0,10.6,31.0,Medium,False,12.0,Low,False,False
+SUP037,Durmuş Duran Plastik Ltd. Şti.,Plastik ve Kauçuk,Bursa,Small,0.3509,0.0597,0.002,0.0757,54.8,41.8,0.0,8.2,30.9,Medium,False,22.6,Low,False,False
+SUP057,İhsanoglu Arsoy Oto Yedek Parca Tic.,Otomotiv Yan Sanayi,Şanlıurfa,Small,0.3333,0.0527,0.0025,0.2166,52.1,36.5,0.0,23.7,30.9,Medium,True,28.5,Medium,False,False
+SUP003,Korutürk Makine İmalat San. Tic. Ltd. Şti.,Makine İmalat,Kocaeli,Medium,0.3307,0.0641,0.0152,0.0373,51.7,45.1,1.0,4.0,30.2,Medium,False,11.6,Low,False,False
+SUP019,Akar İnsaat Malzemeleri Ltd. Şti.,İnşaat Malzemeleri,İzmir,Small,0.3235,0.0475,0.0042,0.1977,50.6,32.6,0.1,21.6,29.1,Medium,True,14.3,Low,False,False
+SUP046,Gül Çelik Ltd. Şti.,Metal ve Çelik,Manisa,Micro,0.4,0.0264,0.0002,0.1856,62.5,16.8,0.0,20.3,29.1,Medium,False,37.6,High,False,False
+SUP004,Şafak Türk Lojistik Ltd. Şti.,Lojistik,Mersin,Small,0.4091,0.0238,0.0021,0.1609,63.9,14.8,0.0,17.6,28.7,Medium,False,35.1,Medium,True,False
+SUP016,Ertaş Duran Mobilya San. Tic. Ltd. Şti.,Mobilya,Van,Medium,0.2927,0.0561,0.0053,0.1714,45.7,39.1,0.1,18.7,28.6,Medium,False,19.2,Low,False,False
+SUP063,Aksu Eraslan Gıda Tic.,Gıda ve İçecek,Bursa,Small,0.4375,0.0229,0.002,0.0662,68.4,14.1,0.0,7.2,28.5,Medium,False,28.9,Medium,False,False
+SUP001,Korutürk Aslan İplik San. Tic. Ltd. Şti.,Tekstil,Trabzon,Medium,0.2836,0.0602,0.0015,0.1432,44.3,42.2,0.0,15.6,28.4,Medium,False,11.7,Low,False,False
+SUP023,Karadeniz Demir Çelik Tic.,Metal ve Çelik,Van,Small,0.381,0.0343,0.0023,0.1027,59.5,22.7,0.0,11.2,28.2,Medium,False,35.3,Medium,False,False
+SUP036,Eraslan Yaman Oto Yedek Parça San. ve Tic. A.Ş.,Otomotiv Yan Sanayi,Denizli,Medium,0.0519,0.124,0.0023,0.139,8.1,90.2,0.0,15.2,27.7,Medium,True,15.7,Low,False,False
+SUP065,Duran Demir Celik Ltd. Şti.,Metal ve Çelik,Tekirdağ,Small,0.2759,0.0606,0.0021,0.1195,43.1,42.5,0.0,13.0,27.7,Medium,False,64.7,High,True,False
+SUP008,Dumanlı Zengin Otomotiv Ltd. Şti.,Otomotiv Yan Sanayi,Van,Small,0.28,0.0603,0.0017,0.1066,43.8,42.3,0.0,11.6,27.6,Medium,False,28.4,Medium,False,False
+SUP074,Yüksel Ambalaj Tic.,Ambalaj,Sakarya,Micro,0.3846,0.0267,0.0003,0.1242,60.1,17.0,0.0,13.5,27.3,Medium,True,23.0,Low,False,False
+SUP076,Yaman Gül İplik San. ve Tic. A.Ş.,Tekstil,Diyarbakır,Medium,0.2676,0.0631,0.0113,0.0884,41.8,44.4,0.6,9.6,27.3,Medium,False,19.3,Low,False,False
+SUP079,Şafak Nakliyat Tic.,Lojistik,İstanbul,Small,0.2745,0.0587,0.0025,0.1196,42.9,41.1,0.0,13.0,27.2,Medium,False,27.8,Medium,False,False
+SUP060,Gül İçecek San. ve Tic. A.Ş.,Gıda ve İçecek,Çorum,Large,0.0764,0.0195,0.1259,0.1542,11.9,11.6,69.3,16.8,26.9,Medium,False,23.6,Low,True,False
+SUP043,Tarhan Şafak Elektrik Tic.,Elektronik,Kayseri,Small,0.2973,0.0518,0.0035,0.0634,46.5,35.9,0.1,6.8,26.3,Low,True,34.8,Medium,False,False
+SUP082,Gülen Gül Çelik Tic.,Metal ve Çelik,İzmir,Small,0.3429,0.0351,0.0021,0.0862,53.6,23.3,0.0,9.4,26.0,Low,False,14.1,Low,False,False
+SUP029,Şener Sezer Çelik Ltd. Şti.,Metal ve Çelik,Tekirdağ,Small,0.1538,0.0829,0.0019,0.1496,24.0,59.3,0.0,16.3,25.7,Low,False,35.3,Medium,False,False
+SUP041,İnönü Gıda Ltd. Şti.,Gıda ve İçecek,İstanbul,Small,0.3571,0.0306,0.0027,0.0557,55.8,19.9,0.0,6.0,25.4,Low,True,20.3,Low,True,False
+SUP051,İnönü Akçay Mobilya San. ve Tic. A.Ş.,Mobilya,Şanlıurfa,Medium,0.2168,0.0585,0.0023,0.1741,33.9,40.9,0.0,19.0,24.9,Low,False,15.8,Low,False,False
+SUP061,Erdoğan Elektronik Grup A.Ş.,Elektronik,Eskişehir,Large,0.2274,0.0446,0.044,0.1389,35.5,30.4,8.5,15.1,24.4,Low,False,4.4,Low,False,False
+SUP045,Eraslan Mobilya Tic.,Mobilya,Kahramanmaraş,Small,0.2308,0.0638,0.0051,0.0336,36.1,44.9,0.1,3.6,24.4,Low,False,9.6,Low,False,False
+SUP054,Akar Manço Oto Yedek Parça San. Tic. Ltd. Şti.,Otomotiv Yan Sanayi,Gaziantep,Medium,0.3148,0.0239,0.0021,0.2037,49.2,14.9,0.0,22.3,24.3,Low,False,37.3,High,False,False
+SUP062,Ülker Kauçuk Ltd. Şti.,Plastik ve Kauçuk,Adana,Micro,0.3636,0.0197,0.0001,0.0902,56.8,11.7,0.0,9.8,24.3,Low,False,24.4,Low,False,False
+SUP025,Ülker Kimya Ltd. Şti.,Kimya,Kocaeli,Small,0.25,0.0492,0.0011,0.1113,39.1,33.9,0.0,12.1,24.0,Low,False,26.6,Low,True,False
+SUP022,Aslan Oto Yedek Parça San. ve Tic. A.Ş.,Otomotiv Yan Sanayi,Aydın,Medium,0.2115,0.0644,0.0289,0.0038,33.1,45.4,3.7,0.3,23.9,Low,False,15.8,Low,False,False
+SUP011,Safak Otomotiv Ltd. Şti.,Otomotiv Yan Sanayi,Konya,Small,0.2,0.0591,0.0023,0.1431,31.2,41.4,0.0,15.6,23.6,Low,True,19.6,Low,False,False
+SUP039,Zengin Gülen Mobilya San. Tic. Ltd. Şti.,Mobilya,Manisa,Medium,0.2381,0.0586,0.0024,0.0032,37.2,41.0,0.0,0.2,23.3,Low,True,10.7,Low,False,False
+SUP077,Çetin Güçlü Ambalaj Tic.,Ambalaj,Adana,Small,0.3846,0.0085,0.0038,0.0786,60.1,3.3,0.1,8.5,23.2,Low,False,38.9,High,False,False
+SUP017,Kısakürek Mobilya San. ve Tic. A.Ş.,Mobilya,Bursa,Medium,0.3281,0.0247,0.0023,0.0717,51.3,15.5,0.0,7.8,23.0,Low,True,26.9,Low,False,False
+SUP002,Yaman Korutürk Oto Yedek Parça San. Tic. Ltd. Şti.,Otomotiv Yan Sanayi,Kocaeli,Medium,0.3725,0.0095,0.0218,0.0403,58.2,4.1,2.1,4.3,22.6,Low,False,9.2,Low,False,False
+SUP021,Akdeniz Bilgin Otomotiv Tic.,Otomotiv Yan Sanayi,Manisa,Small,0.1087,0.078,0.001,0.141,17.0,55.6,0.0,15.4,22.1,Low,False,43.7,High,False,False
+SUP040,Yaman Zorlu Metal Ltd. Şti.,Metal ve Çelik,Eskişehir,Small,0.2727,0.0246,0.0007,0.1983,42.6,15.4,0.0,21.7,22.0,Low,False,36.9,Medium,False,False
+SUP058,Yorulmaz Çelik San. ve Tic. A.Ş.,Metal ve Çelik,Denizli,Medium,0.2442,0.0427,0.0011,0.0761,38.2,29.0,0.0,8.2,21.8,Low,False,21.7,Low,False,True
+SUP038,Zengin Makine İmalat Ltd. Şti.,Makine İmalat,Bursa,Small,0.2778,0.0287,0.0013,0.1144,43.4,18.5,0.0,12.5,21.7,Low,False,36.7,Medium,False,False
+SUP050,Yılmaz Makine San. Tic. Ltd. Şti.,Makine İmalat,Şanlıurfa,Medium,0.1969,0.06,0.0153,0.0117,30.8,42.0,1.0,1.2,21.7,Low,False,55.8,High,True,False
+SUP049,Şafak Çelik San. Tic. Ltd. Şti.,Metal ve Çelik,Adana,Medium,0.1954,0.0405,0.0224,0.2179,30.5,27.4,2.2,23.8,21.6,Low,False,25.0,Low,True,False
+SUP072,Erdoğan Akçay Makine İmalat Ltd. Şti.,Makine İmalat,Ankara,Small,0.0652,0.0777,0.0009,0.1965,10.2,55.3,0.0,21.5,20.6,Low,False,24.4,Low,False,False
+SUP085,Şafak Kimyasal Ürünler Tic.,Kimya,Sakarya,Micro,0.2105,0.0319,0.0,0.2323,32.9,20.9,0.0,25.4,20.5,Low,True,36.4,Medium,False,False
+SUP048,Şensoy Şama Kimya Tic.,Kimya,Ankara,Small,0.1429,0.0633,0.0038,0.0698,22.3,44.5,0.1,7.6,20.1,Low,False,23.9,Low,False,False
+SUP031,Alemdar Türk Mobilya Tic.,Mobilya,,Small,0.1905,0.0494,0.0021,0.0571,29.8,34.1,0.0,6.2,19.9,Low,True,23.6,Low,True,False
+SUP005,Bilir Kimya Ltd. Şti.,Kimya,Manisa,Small,0.2703,0.019,0.0057,0.1158,42.2,11.2,0.1,12.6,19.5,Low,True,24.3,Low,False,False
+SUP083,Bilge Sakarya Mobilya San. ve Tic. A.Ş.,Mobilya,Gaziantep,Medium,0.22,0.0262,0.0062,0.1936,34.4,16.6,0.2,21.1,19.4,Low,False,13.4,Low,False,False
+SUP056,Hayrioğlu Soylu Nakliyat Grup A.Ş.,Lojistik,Denizli,Large,0.2953,0.0096,0.0391,0.001,46.1,4.2,6.7,0.0,18.9,Low,False,26.3,Low,False,False
+SUP059,Durdu Akca Ambalaj Tic.,Ambalaj,Manisa,Small,0.1364,0.0445,0.0003,0.2096,21.3,30.4,0.0,22.9,18.5,Low,False,41.1,High,False,False
+SUP035,Çamurcuoğlu Şensoy Yapı Tic.,İnşaat Malzemeleri,Ankara,Micro,0.05,0.0727,0.0004,0.1686,7.8,51.6,0.0,18.4,18.4,Low,True,32.5,Medium,True,False
+SUP084,Akar Oto Yedek Parça Tic.,Otomotiv Yan Sanayi,Adana,Small,0.129,0.0561,0.003,0.0917,20.2,39.1,0.0,10.0,18.3,Low,True,25.5,Low,False,False
+SUP053,Şener Otomotiv Ltd. Şti.,Otomotiv Yan Sanayi,Çorum,Small,0.2364,0.0263,0.0002,0.068,36.9,16.7,0.0,7.4,18.2,Low,False,22.2,Low,False,False
+SUP027,Şener Aksu Makine Ltd. Şti.,Makine İmalat,Aydın,Small,0.1429,0.0439,0.0004,0.1731,22.3,30.0,0.0,18.9,18.1,Low,False,34.5,Medium,False,False
+SUP013,Çorlu İnşaat Malzemeleri San. Tic. Ltd. Şti.,İnşaat Malzemeleri,Şanlıurfa,Medium,0.1513,0.0437,0.0328,0.0704,23.6,29.8,4.7,7.6,18.0,Low,False,6.9,Low,False,False
+SUP070,Bilgin Tekstil San. Tic. Ltd. Şti.,Tekstil,Manisa,Medium,0.1452,0.0553,0.0096,0.014,22.7,38.5,0.4,1.4,17.9,Low,True,17.4,Low,False,False
+SUP067,Akçay İnşaat Malzemeleri Tic.,İnşaat Malzemeleri,Tekirdağ,Small,0.1111,0.0518,0.005,0.162,17.4,35.8,0.1,17.7,17.7,Low,True,34.5,Medium,False,False
+SUP047,Akgündüz İçecek Tic.,Gıda ve İçecek,Ankara,Micro,0.1724,0.024,0.0004,0.1911,26.9,15.0,0.0,20.9,16.3,Low,False,20.9,Low,False,False
+SUP052,Sakarya Gıda San. ve Tic. A.Ş.,Gıda ve İçecek,İstanbul,Medium,0.2361,0.0143,0.0208,0.0433,36.9,7.7,1.9,4.6,16.0,Low,False,20.3,Low,True,False
+SUP068,Demir Yüksel Kimyasal Ürünler San. ve Tic. A.Ş.,Kimya,Balıkesir,Large,0.1377,0.0261,0.0456,0.0852,21.5,16.5,9.1,9.2,15.3,Low,False,8.1,Low,False,False
+SUP055,Aksu Duran Kimya Grup A.Ş.,Kimya,Sakarya,Large,0.0278,0.0465,0.0547,0.1271,4.3,31.9,13.1,13.8,14.8,Low,False,22.8,Low,True,False
+SUP080,Seven Ambalaj San. ve Tic. A.Ş.,Ambalaj,Konya,Medium,0.1182,0.0393,0.0126,0.0632,18.5,26.5,0.7,6.8,14.3,Low,False,23.9,Low,False,False
+SUP044,Kısakürek Tevetoğlu Çelik Tic.,Metal ve Çelik,Sakarya,Small,0.1034,0.0329,0.0041,0.1896,16.2,21.6,0.1,20.7,14.2,Low,False,24.7,Low,True,False
+SUP069,Şama Yıldırım Gıda San. Tic. Ltd. Şti.,Gıda ve İçecek,Manisa,Medium,0.1509,0.0302,0.0023,0.0423,23.6,19.6,0.0,4.5,13.8,Low,True,37.6,High,True,False
+SUP009,Bilge Ambalaj San. ve Tic. A.Ş.,Ambalaj,Adana,Medium,0.1053,0.0293,0.0242,0.1572,16.4,19.0,2.6,17.1,13.7,Low,False,16.8,Low,False,False
+SUP064,Tevetoğlu Şafak Mobilya Tic.,Mobilya,Ankara,Small,0.1765,0.0154,0.0034,0.118,27.6,8.5,0.0,12.8,13.7,Low,False,44.5,High,False,False
+SUP010,Sezgin Mobilya Holding A.Ş.,Mobilya,Konya,Large,0.0442,0.032,0.0519,0.1624,6.9,21.0,11.8,17.7,13.3,Low,False,17.7,Low,False,False
+SUP081,Gül Yorulmaz Konfeksiyon Ltd. Şti.,Tekstil,Samsun,Small,0.0408,0.0367,0.0024,0.0756,6.4,24.5,0.0,8.2,9.6,Low,False,26.1,Low,False,False
+SUP032,Aslan Erdoğan İplik San. ve Tic. A.Ş.,Tekstil,İstanbul,Medium,0.05,0.0234,0.0156,0.1079,7.8,14.5,1.1,11.7,8.4,Low,False,33.5,Medium,False,False
+SUP073,Şama Elektronik San. Tic. Ltd. Şti.,Elektronik,Gaziantep,Medium,0.0,0.0232,0.0204,0.1741,0.0,14.4,1.8,19.0,6.9,Low,True,16.3,Low,False,False
+SUP033,Akça Plastik San. Tic. Ltd. Şti.,Plastik ve Kauçuk,Konya,Medium,0.0671,0.0041,0.0114,0.0136,10.5,0.0,0.6,1.4,4.0,Low,True,12.6,Low,False,False

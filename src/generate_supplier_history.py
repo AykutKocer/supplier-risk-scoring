@@ -81,7 +81,10 @@ def drift_record(prev: dict, rng: random.Random) -> dict:
     if not prev["payment_default_last_3y"] and rng.random() < 0.03:
         nxt["payment_default_last_3y"] = True
 
-    for flag in ["has_export_documentation", "site_visit_verified", "requires_full_upfront_payment"]:
+    for flag in [
+        "has_export_documentation", "site_visit_verified", "requires_full_upfront_payment",
+        "exports_to_eu", "has_emissions_reporting_capability",
+    ]:
         if rng.random() < 0.05:
             nxt[flag] = not prev[flag]
 

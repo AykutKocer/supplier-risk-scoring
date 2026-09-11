@@ -150,6 +150,7 @@ class TestDriftRecord:
             "payment_default_last_3y": False,
             "has_export_documentation": True, "site_visit_verified": True,
             "requires_full_upfront_payment": False,
+            "exports_to_eu": False, "has_emissions_reporting_capability": False,
         }
 
     def test_drifted_values_stay_within_a_bounded_range_of_the_original(self):

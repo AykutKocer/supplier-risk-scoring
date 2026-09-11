@@ -36,6 +36,8 @@ required_canonical_columns:
 - has_export_documentation
 - requires_full_upfront_payment
 - site_visit_verified
+- exports_to_eu
+- has_emissions_reporting_capability
 column_mapping: []
 category_maps:
 - canonical_name: company_size
@@ -89,6 +91,26 @@ category_maps:
     '0': false
     'false': false
 - canonical_name: site_visit_verified
+  value_map:
+    evet: true
+    'yes': true
+    '1': true
+    'true': true
+    hayir: false
+    'no': false
+    '0': false
+    'false': false
+- canonical_name: exports_to_eu
+  value_map:
+    evet: true
+    'yes': true
+    '1': true
+    'true': true
+    hayir: false
+    'no': false
+    '0': false
+    'false': false
+- canonical_name: has_emissions_reporting_capability
   value_map:
     evet: true
     'yes': true

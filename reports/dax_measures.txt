@@ -69,3 +69,13 @@ SUMX(
     supplier_risk_scores,
     supplier_risk_scores[supplier_dependency_ratio] ^ 2
 ) * 10000
+
+--------------------------------------------------------------------------
+-- v2 measure: CBAM compliance exposure. Boolean applicability + gap flag,
+-- not a score -- see compute_cbam_compliance_risk() in
+-- src/score_suppliers.py and config/cbam_sectors.yaml.
+CBAM Exposed Count =
+CALCULATE(
+    COUNTROWS(supplier_risk_scores),
+    supplier_risk_scores[cbam_compliance_risk] = TRUE
+)

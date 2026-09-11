@@ -226,6 +226,19 @@ def generate_clean_supplier(supplier_idx: int) -> dict:
     requires_full_upfront_payment = random.random() < red_flag_probability
     site_visit_verified = random.random() > red_flag_probability * 1.2
 
+    # CBAM/CSRD compliance signals (docs/research_v2.md section 4.2): the
+    # EU's Carbon Border Adjustment Mechanism enters its definitive regime in
+    # 2026, naming Turkey specifically (alongside China and India) as among
+    # the most-exposed countries for steel/aluminum exports. Larger, more
+    # established companies are more likely to both export internationally
+    # and already have the emissions-reporting capability CBAM/CSRD requires
+    # -- same size-tiered pattern as iso_certified, for the same underlying
+    # reason (compliance infrastructure scales with company maturity).
+    exports_to_eu_probability = {"Mikro": 0.03, "Kucuk": 0.08, "Orta": 0.20, "Buyuk": 0.40}[size]
+    emissions_reporting_probability = {"Mikro": 0.03, "Kucuk": 0.10, "Orta": 0.30, "Buyuk": 0.65}[size]
+    exports_to_eu = random.random() < exports_to_eu_probability
+    has_emissions_reporting_capability = random.random() < emissions_reporting_probability
+
     return {
         "supplier_id": f"SUP{supplier_idx:03d}",
         "company_name": build_company_name(sector, size),
@@ -255,6 +268,8 @@ def generate_clean_supplier(supplier_idx: int) -> dict:
         "has_export_documentation": has_export_documentation,
         "requires_full_upfront_payment": requires_full_upfront_payment,
         "site_visit_verified": site_visit_verified,
+        "exports_to_eu": exports_to_eu,
+        "has_emissions_reporting_capability": has_emissions_reporting_capability,
     }
 
 
@@ -339,7 +354,10 @@ def messify(df: pd.DataFrame) -> pd.DataFrame:
     df["payment_default_last_3y"] = df["payment_default_last_3y"].apply(
         lambda b: random.choice(true_variants) if b else random.choice(false_variants)
     )
-    for col in ["has_export_documentation", "requires_full_upfront_payment", "site_visit_verified"]:
+    for col in [
+        "has_export_documentation", "requires_full_upfront_payment", "site_visit_verified",
+        "exports_to_eu", "has_emissions_reporting_capability",
+    ]:
         df[col] = df[col].apply(
             lambda b: random.choice(true_variants) if b else random.choice(false_variants)
         )
@@ -385,6 +403,8 @@ def messify(df: pd.DataFrame) -> pd.DataFrame:
         "has_export_documentation": 0.06,
         "requires_full_upfront_payment": 0.06,
         "site_visit_verified": 0.12,  # a site visit not yet happening is common, not an anomaly
+        "exports_to_eu": 0.07,
+        "has_emissions_reporting_capability": 0.09,
     }
     n = len(df)
     for col, rate in missing_rates.items():

@@ -36,6 +36,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 INPUT_PATH = "data/processed/suppliers_clean.csv"
 CONFIG_PATH = "config/scoring_weights.yaml"
+CBAM_CONFIG_PATH = "config/cbam_sectors.yaml"
 OUTPUT_PATH = "reports/supplier_risk_scores.csv"
 SECTOR_HHI_OUTPUT_PATH = "reports/sector_concentration.csv"
 
@@ -163,6 +164,36 @@ def compute_sector_hhi(df: pd.DataFrame) -> pd.DataFrame:
     return result.sort_values("sector_hhi", ascending=False).reset_index()
 
 
+def load_cbam_config(path: str) -> list:
+    with open(path, encoding="utf-8") as f:
+        return yaml.safe_load(f)["cbam_covered_sectors"]
+
+
+def compute_cbam_compliance_risk(df: pd.DataFrame, cbam_covered_sectors: list) -> pd.Series:
+    """Flags a specific, dated compliance exposure: a supplier in a
+    CBAM-covered sector (config/cbam_sectors.yaml), selling into the EU,
+    without the emissions-reporting capability CBAM/CSRD actually requires.
+
+    This is a boolean applicability + gap check, not a continuous score --
+    either a supplier has this concrete exposure or it doesn't. Not blended
+    into risk_score or financial_risk_score, for the same reason those two
+    stay separate from each other: a compliance exposure is a different
+    *kind* of risk than operational or financial performance, and merging
+    it in would hide which one is actually driving a rating.
+
+    docs/research_v2.md section 4.2: the EU's Carbon Border Adjustment
+    Mechanism enters its definitive regime in 2026, naming Turkey
+    specifically (alongside China and India) as among the most-exposed
+    countries, particularly for steel/aluminum exports. Non-compliance risk
+    is not just administrative -- inaccurate or missing embedded-carbon
+    reporting can trigger EU financial penalties, import delays, and
+    market-access restrictions."""
+    in_scope_sector = df["sector"].isin(cbam_covered_sectors)
+    exports_to_eu = df["exports_to_eu"].fillna(False).astype(bool)
+    lacks_reporting = ~df["has_emissions_reporting_capability"].fillna(False).astype(bool)
+    return in_scope_sector & exports_to_eu & lacks_reporting
+
+
 def compute_financial_risk_score(df: pd.DataFrame, thresholds: dict) -> pd.DataFrame:
     """Computes a separate 0-100 financial_risk_score (higher = riskier),
     deliberately NOT blended into risk_score.
@@ -244,6 +275,8 @@ def main():
     df = compute_metrics(df)
     df = compute_risk_score(df, config)
     df = compute_financial_risk_score(df, config["risk_level_thresholds"])
+    cbam_covered_sectors = load_cbam_config(CBAM_CONFIG_PATH)
+    df["cbam_compliance_risk"] = compute_cbam_compliance_risk(df, cbam_covered_sectors)
 
     rate_columns = [
         "delivery_delay_rate", "price_volatility",
@@ -260,6 +293,9 @@ def main():
         # Separate axis, deliberately not blended into risk_score — see
         # compute_financial_risk_score's docstring.
         + ["financial_risk_score", "financial_risk_level", "financial_risk_has_estimated_inputs"]
+        # A boolean compliance flag, not a score — see
+        # compute_cbam_compliance_risk's docstring for why it stays separate.
+        + ["cbam_compliance_risk"]
     )
     result = df[output_columns].sort_values("risk_score", ascending=False)
     result.to_csv(OUTPUT_PATH, index=False, encoding="utf-8-sig")
@@ -273,6 +309,9 @@ def main():
     print(result["financial_risk_level"].value_counts())
     print()
     print(f"Suppliers with at least one estimated (imputed) input: {result['has_estimated_inputs'].sum()}")
+    print()
+    print(f"Suppliers with a CBAM compliance exposure (in-scope sector, exports to EU, "
+          f"no emissions-reporting capability): {int(result['cbam_compliance_risk'].sum())}")
     print()
     portfolio_hhi = compute_portfolio_hhi(df["supplier_dependency_ratio"])
     hhi_level = "low" if portfolio_hhi < 1_500 else "moderate" if portfolio_hhi < 2_500 else "high"

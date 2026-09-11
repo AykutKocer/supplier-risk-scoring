@@ -1,56 +1,67 @@
 ﻿supplier_id,company_name,period_from,period_to,level_from,level_to,axis
-SUP010,Şafak Mobilya Tic.,2025-Q2,2025-Q3,Low,Medium,operational
-SUP011,Manço Plastik Tic.,2025-Q2,2025-Q3,Low,High,operational
-SUP017,Durmuş Makine San. Tic. Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,operational
-SUP029,Hayrioğlu Makine Tic.,2025-Q2,2025-Q3,Low,Medium,operational
-SUP030,Alemdar Türk Yapı Ltd. Şti.,2025-Q2,2025-Q3,Medium,High,operational
-SUP031,Aslan Yapı Tic.,2025-Q1,2025-Q2,Low,Medium,operational
-SUP036,Durmuş Tekstil San. Tic. Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,operational
-SUP039,Yaman Karton Tic.,2025-Q3,2025-Q4,Medium,High,operational
-SUP040,Corlu İnonu Lojistik San. ve Tic. A.Ş.,2025-Q3,2025-Q4,Medium,High,operational
-SUP041,Demir Mobilya San. Tic. Ltd. Şti.,2025-Q1,2025-Q2,Low,Medium,operational
-SUP045,Bilge Otomotiv Tic.,2025-Q1,2025-Q2,Low,Medium,operational
-SUP045,Bilge Otomotiv Tic.,2025-Q3,2025-Q4,Low,High,operational
-SUP050,İnönü Kimyasal Ürünler Ltd. Şti.,2025-Q1,2025-Q2,Medium,High,operational
-SUP051,Çamurcuoğlu Sakarya Plastik San. ve Tic. A.Ş.,2025-Q3,2025-Q4,Low,Medium,operational
-SUP055,Hayrioglu Soylu Makine İmalat Ltd. Şti.,2025-Q1,2025-Q2,Low,High,operational
-SUP056,İhsanoğlu Gıda San. ve Tic. A.Ş.,2025-Q2,2025-Q3,Low,Medium,operational
-SUP057,Karadeniz Sezgin Çelik Grup A.Ş.,2025-Q3,2025-Q4,Low,Medium,operational
-SUP059,Durdu Kaucuk Ltd. Şti.,2025-Q2,2025-Q3,Low,High,operational
-SUP064,Bilge Elektronik Ltd. Şti.,2025-Q2,2025-Q3,Medium,High,operational
-SUP068,Yüksel Bilgin Mobilya Tic.,2025-Q1,2025-Q2,Low,Medium,operational
-SUP069,Yildirim Plastik San. ve Tic. A.Ş.,2025-Q1,2025-Q2,Low,Medium,operational
-SUP072,Erdoğan Akçay Yapı Ltd. Şti.,2025-Q1,2025-Q2,Medium,High,operational
-SUP072,Erdoğan Akçay Yapi Ltd. Şti.,2025-Q3,2025-Q4,Medium,High,operational
-SUP077,Cetin Ambalaj Tic.,2025-Q3,2025-Q4,Low,Medium,operational
-SUP080,Seven Ertaş Karton Tic.,2025-Q2,2025-Q3,Medium,High,operational
-SUP081,Şensoy Şensoy Kimya San. Tic. Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,operational
-SUP083,Bilge Sakarya Plastik Tic.,2025-Q2,2025-Q3,Low,Medium,operational
-SUP085,Şafak Nakliyat Ltd. Şti.,2025-Q1,2025-Q2,Low,Medium,operational
-SUP085,Şafak Nakliyat Ltd. Şti.,2025-Q3,2025-Q4,Low,Medium,operational
-SUP004,Şafak Türk Plastik Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,financial
-SUP007,Şensoy Elektronik Tic.,2025-Q3,2025-Q4,Low,High,financial
-SUP008,Dumanlı Metal San. Tic. Ltd. Şti.,2025-Q1,2025-Q2,Medium,High,financial
-SUP008,Dumanli Metal San. Tic. Ltd. Şti.,2025-Q3,2025-Q4,Low,Medium,financial
-SUP010,Şafak Mobilya Tic.,2025-Q1,2025-Q2,Low,Medium,financial
-SUP019,Akar Kimya San. Tic. Ltd. Şti.,2025-Q3,2025-Q4,Low,Medium,financial
-SUP022,Sakarya Kısakürek İplik Ltd. Şti.,2025-Q1,2025-Q2,Low,High,financial
-SUP023,Şener Karadeniz Kauçuk Ltd. Şti.,2025-Q2,2025-Q3,Medium,High,financial
-SUP028,Şener Sezer Elektronik San. Tic. Ltd. Şti.,2025-Q3,2025-Q4,Low,Medium,financial
-SUP034,Çamurcuoğlu Şensoy Karton Tic.,2025-Q1,2025-Q2,Medium,High,financial
-SUP040,Çorlu İnönü Lojistik San. ve Tic. A.Ş.,2025-Q1,2025-Q2,Low,Medium,financial
-SUP041,Demir Mobilya San. Tic. Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,financial
-SUP045,Bilge Otomotiv Tic.,2025-Q2,2025-Q3,Low,Medium,financial
-SUP046,Gül Demir Taşimacilik Ltd. Şti.,2025-Q1,2025-Q2,Low,High,financial
-SUP046,Gül Demir Taşımacılık Ltd. Şti.,2025-Q3,2025-Q4,Low,High,financial
-SUP047,Şensoy Şama İplik San. Tic. Ltd. Şti.,2025-Q2,2025-Q3,Medium,High,financial
-SUP051,Camurcuoglu Sakarya Plastik San. ve Tic. A.Ş.,2025-Q2,2025-Q3,Medium,High,financial
-SUP059,Durdu Kaucuk Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,financial
-SUP062,Ülker Mobilya Tic.,2025-Q1,2025-Q2,Low,Medium,financial
-SUP066,Hançer Gülen Mobilya Tic.,2025-Q1,2025-Q2,Low,Medium,financial
-SUP068,Yüksel Bilgin Mobilya Tic.,2025-Q1,2025-Q2,Medium,High,financial
-SUP073,Şama Taşımacılık Tic.,2025-Q3,2025-Q4,Low,Medium,financial
-SUP075,Soylu Bilir Otomotiv Tic.,2025-Q3,2025-Q4,Low,High,financial
-SUP077,Çetin Ambalaj Tic.,2025-Q2,2025-Q3,Medium,High,financial
-SUP080,Seven Ertaş Karton Tic.,2025-Q2,2025-Q3,Low,Medium,financial
-SUP085,Safak Nakliyat Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,financial
+SUP001,Korutürk Aslan İplik San. Tic. Ltd. Şti.,2025-Q3,2025-Q4,Low,Medium,operational
+SUP002,Yaman Korutürk Oto Yedek Parça San. Tic. Ltd. Şti.,2025-Q1,2025-Q2,Low,Medium,operational
+SUP002,Yaman Korutürk Oto Yedek Parça San. Tic. Ltd. Şti.,2025-Q3,2025-Q4,Low,High,operational
+SUP003,Korutürk Makine İmalat San. Tic. Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,operational
+SUP005,Bilir Kimya Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,operational
+SUP006,Tevetoğlu Otomotiv Tic.,2025-Q2,2025-Q3,Medium,High,operational
+SUP007,Akar Demirel Makine İmalat Ltd. Şti.,2025-Q2,2025-Q3,Medium,High,operational
+SUP008,Dumanli Zengin Otomotiv Ltd. Şti.,2025-Q3,2025-Q4,Low,Medium,operational
+SUP015,Eraslan Sezgin Nakliyat San. ve Tic. A.Ş.,2025-Q3,2025-Q4,Medium,High,operational
+SUP016,Ertaş Duran Mobilya San. Tic. Ltd. Şti.,2025-Q1,2025-Q2,Medium,High,operational
+SUP017,Kısakürek Mobilya San. ve Tic. A.Ş.,2025-Q1,2025-Q2,Low,Medium,operational
+SUP017,Kisakürek Mobilya San. ve Tic. A.Ş.,2025-Q3,2025-Q4,Medium,High,operational
+SUP019,Akar İnşaat Malzemeleri Ltd. Şti.,2025-Q3,2025-Q4,Low,Medium,operational
+SUP020,Ülker Bilgin Kauçuk Tic.,2025-Q3,2025-Q4,Medium,High,operational
+SUP021,Akdeniz Bilgin Otomotiv Tic.,2025-Q1,2025-Q2,Low,Medium,operational
+SUP023,Karadeniz Demir Çelik Tic.,2025-Q2,2025-Q3,Low,Medium,operational
+SUP028,Ertaş Kisakürek Taşimacilik Holding A.Ş.,2025-Q1,2025-Q2,Medium,High,operational
+SUP037,Durmuş Duran Plastik Ltd. Şti.,2025-Q3,2025-Q4,Low,Medium,operational
+SUP038,Zengin Makine İmalat Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,operational
+SUP040,Yaman Zorlu Metal Ltd. Şti.,2025-Q1,2025-Q2,Low,High,operational
+SUP042,Demir Manço Oto Yedek Parça Ltd. Şti.,2025-Q3,2025-Q4,Low,Medium,operational
+SUP045,Eraslan Mobilya Tic.,2025-Q3,2025-Q4,Low,High,operational
+SUP046,Gul Celik Ltd. Şti.,2025-Q1,2025-Q2,Medium,High,operational
+SUP049,Şafak Çelik San. Tic. Ltd. Şti.,2025-Q1,2025-Q2,Low,Medium,operational
+SUP051,İnönü Akçay Mobilya San. ve Tic. A.Ş.,2025-Q1,2025-Q2,Low,High,operational
+SUP052,Sakarya Gida San. ve Tic. A.Ş.,2025-Q3,2025-Q4,Low,Medium,operational
+SUP054,Akar Manço Oto Yedek Parça San. Tic. Ltd. Şti.,2025-Q1,2025-Q2,Low,Medium,operational
+SUP056,Hayrioğlu Soylu Nakliyat Grup A.Ş.,2025-Q3,2025-Q4,Low,Medium,operational
+SUP057,İhsanoğlu Arsoy Oto Yedek Parça Tic.,2025-Q3,2025-Q4,Low,High,operational
+SUP058,Yorulmaz Çelik San. ve Tic. A.Ş.,2025-Q1,2025-Q2,Low,Medium,operational
+SUP059,Durdu Akça Ambalaj Tic.,2025-Q2,2025-Q3,Low,Medium,operational
+SUP060,Gul İcecek San. ve Tic. A.Ş.,2025-Q1,2025-Q2,Low,Medium,operational
+SUP065,Duran Demir Çelik Ltd. Şti.,2025-Q3,2025-Q4,Low,Medium,operational
+SUP075,Soylu San. ve Tic. A.Ş.,2025-Q2,2025-Q3,Medium,High,operational
+SUP077,Çetin Güçlü Ambalaj Tic.,2025-Q1,2025-Q2,Low,High,operational
+SUP079,Şafak Nakliyat Tic.,2025-Q2,2025-Q3,Low,High,operational
+SUP082,Gülen Gül Çelik Tic.,2025-Q2,2025-Q3,Low,Medium,operational
+SUP004,Şafak Türk Lojistik Ltd. Şti.,2025-Q1,2025-Q2,Medium,High,financial
+SUP006,Tevetoğlu Otomotiv Tic.,2025-Q2,2025-Q3,Low,Medium,financial
+SUP022,Aslan Oto Yedek Parça San. ve Tic. A.Ş.,2025-Q2,2025-Q3,Low,High,financial
+SUP023,Karadeniz Demir Çelik Tic.,2025-Q2,2025-Q3,Medium,High,financial
+SUP024,Arsoy Yapi Ltd. Şti.,2025-Q1,2025-Q2,Low,Medium,financial
+SUP027,Şener Aksu Makine Ltd. Şti.,2025-Q1,2025-Q2,Medium,High,financial
+SUP029,Şener Sezer Çelik Ltd. Şti.,2025-Q1,2025-Q2,Medium,High,financial
+SUP032,Aslan Erdoğan İplik San. ve Tic. A.Ş.,2025-Q1,2025-Q2,Medium,High,financial
+SUP041,İnönü Gıda Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,financial
+SUP043,Tarhan Şafak Elektrik Tic.,2025-Q1,2025-Q2,Medium,High,financial
+SUP046,Gül Çelik Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,financial
+SUP046,Gül Çelik Ltd. Şti.,2025-Q3,2025-Q4,Medium,High,financial
+SUP049,Şafak Çelik San. Tic. Ltd. Şti.,2025-Q1,2025-Q2,Low,Medium,financial
+SUP051,İnönü Akçay Mobilya San. ve Tic. A.Ş.,2025-Q3,2025-Q4,Low,High,financial
+SUP056,Hayrioğlu Soylu Nakliyat Grup A.Ş.,2025-Q1,2025-Q2,Low,Medium,financial
+SUP056,Hayrioğlu Soylu Nakliyat Grup A.Ş.,2025-Q3,2025-Q4,Low,Medium,financial
+SUP057,İhsanoğlu Arsoy Oto Yedek Parça Tic.,2025-Q1,2025-Q2,Low,Medium,financial
+SUP059,Durdu Akca Ambalaj Tic.,2025-Q3,2025-Q4,Low,High,financial
+SUP060,Gul İcecek San. ve Tic. A.Ş.,2025-Q1,2025-Q2,Low,Medium,financial
+SUP060,Gül İçecek San. ve Tic. A.Ş.,2025-Q3,2025-Q4,Low,Medium,financial
+SUP063,Aksu Eraslan Gıda Tic.,2025-Q1,2025-Q2,Low,Medium,financial
+SUP068,Demir Yüksel Kimyasal Ürünler San. ve Tic. A.Ş.,2025-Q2,2025-Q3,Low,High,financial
+SUP070,Bilgin Tekstil San. Tic. Ltd. Şti.,2025-Q2,2025-Q3,Low,Medium,financial
+SUP071,Demirel Makine İmalat Tic.,2025-Q1,2025-Q2,Low,Medium,financial
+SUP072,Erdoğan Akçay Makine İmalat Ltd. Şti.,2025-Q1,2025-Q2,Low,Medium,financial
+SUP074,Yüksel Ambalaj Tic.,2025-Q3,2025-Q4,Low,Medium,financial
+SUP077,Çetin Güçlü Ambalaj Tic.,2025-Q2,2025-Q3,Medium,High,financial
+SUP082,Gülen Gül Çelik Tic.,2025-Q2,2025-Q3,Low,High,financial
+SUP085,Şafak Kimyasal Ürünler Tic.,2025-Q2,2025-Q3,Low,High,financial

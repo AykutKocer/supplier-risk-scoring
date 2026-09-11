@@ -5,7 +5,13 @@ concentration-risk logic (docs/research_v2.md section 3.1) added in v2."""
 import pandas as pd
 import pytest
 
-from score_suppliers import assign_risk_level, compute_portfolio_hhi, compute_risk_score, compute_sector_hhi
+from score_suppliers import (
+    assign_risk_level,
+    compute_cbam_compliance_risk,
+    compute_portfolio_hhi,
+    compute_risk_score,
+    compute_sector_hhi,
+)
 
 
 class TestComputePortfolioHHI:
@@ -145,3 +151,62 @@ class TestComputeSectorHhi:
         df = pd.DataFrame({"sector": ["A", "A", "A"], "annual_purchase_volume_tl": [100, 0, 0]})
         result = compute_sector_hhi(df).set_index("sector")
         assert result.loc["A", "sector_hhi"] == pytest.approx(10_000.0)
+
+
+class TestComputeCbamComplianceRisk:
+    """CBAM/CSRD compliance exposure (docs/research_v2.md section 4.2): a
+    boolean applicability + gap check, not a continuous score -- flags
+    suppliers in a CBAM-covered sector, selling into the EU, without the
+    emissions-reporting capability CBAM/CSRD actually requires."""
+
+    CBAM_SECTORS = ["Metal ve Çelik"]
+
+    def _toy_df(self, **overrides):
+        base = {
+            "sector": ["Metal ve Çelik"],
+            "exports_to_eu": [True],
+            "has_emissions_reporting_capability": [False],
+        }
+        base.update(overrides)
+        return pd.DataFrame(base)
+
+    def test_flags_the_exact_triple_condition(self):
+        df = self._toy_df()
+        result = compute_cbam_compliance_risk(df, self.CBAM_SECTORS)
+        assert result.iloc[0] == True  # noqa: E712
+
+    def test_not_flagged_when_sector_out_of_scope(self):
+        df = self._toy_df(sector=["Tekstil"])
+        result = compute_cbam_compliance_risk(df, self.CBAM_SECTORS)
+        assert result.iloc[0] == False  # noqa: E712
+
+    def test_not_flagged_when_not_exporting_to_eu(self):
+        df = self._toy_df(exports_to_eu=[False])
+        result = compute_cbam_compliance_risk(df, self.CBAM_SECTORS)
+        assert result.iloc[0] == False  # noqa: E712
+
+    def test_not_flagged_when_reporting_capability_exists(self):
+        df = self._toy_df(has_emissions_reporting_capability=[True])
+        result = compute_cbam_compliance_risk(df, self.CBAM_SECTORS)
+        assert result.iloc[0] == False  # noqa: E712
+
+    def test_missing_exports_to_eu_treated_as_false_not_flagged(self):
+        df = self._toy_df(exports_to_eu=[None])
+        result = compute_cbam_compliance_risk(df, self.CBAM_SECTORS)
+        assert result.iloc[0] == False  # noqa: E712
+
+    def test_missing_reporting_capability_treated_as_false_and_flagged(self):
+        # Missing data on whether a supplier has reporting capability is
+        # itself the gap this flag exists to surface, not a reason to skip it.
+        df = self._toy_df(has_emissions_reporting_capability=[None])
+        result = compute_cbam_compliance_risk(df, self.CBAM_SECTORS)
+        assert result.iloc[0] == True  # noqa: E712
+
+    def test_multiple_rows_evaluated_independently(self):
+        df = pd.DataFrame({
+            "sector": ["Metal ve Çelik", "Metal ve Çelik", "Tekstil"],
+            "exports_to_eu": [True, False, True],
+            "has_emissions_reporting_capability": [False, False, False],
+        })
+        result = compute_cbam_compliance_risk(df, self.CBAM_SECTORS)
+        assert result.tolist() == [True, False, False]
