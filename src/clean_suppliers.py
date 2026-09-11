@@ -23,7 +23,7 @@ import sys
 
 import pandas as pd
 
-from cleaning import clean_with_profile, load_profile
+from cleaning import clean_with_profile, load_profile, vkn as vkn_module
 
 # Windows consoles often use a legacy codepage that can't print every
 # Turkish/Unicode character; force UTF-8 output so a print never crashes.
@@ -49,6 +49,18 @@ def main():
 
     df = pd.read_csv(args.input, encoding=profile.encoding)
     cleaned = clean_with_profile(df, profile)
+
+    # VKN checksum validation is a genuine Turkish business-rule check, not a
+    # generic formatting concern the engine can express — it's applied here
+    # as a bespoke step on top of the generic engine's output, the same way
+    # any project-specific validation would layer on top of the reusable
+    # cleaning core. A failed checksum is flagged, never silently "fixed"
+    # (there's no way to recover the correct digits from a corrupted one).
+    if "vkn" in cleaned.columns:
+        cleaned["vkn_valid"] = cleaned["vkn"].apply(
+            lambda v: vkn_module.is_valid(str(v)) if pd.notna(v) else pd.NA
+        )
+
     cleaned.to_csv(args.output, index=False, encoding="utf-8-sig")
 
     print()
@@ -56,6 +68,11 @@ def main():
     print()
     print("Missing values per column after cleaning:")
     print(cleaned.isna().sum())
+    if "vkn_valid" in cleaned.columns:
+        n_invalid = (cleaned["vkn_valid"] == False).sum()  # noqa: E712 (nullable bool, `is False` doesn't broadcast)
+        print()
+        print(f"VKN checksum check: {n_invalid} of {cleaned['vkn'].notna().sum()} present VKNs failed validation "
+              f"(flagged in 'vkn_valid', not silently corrected).")
 
 
 if __name__ == "__main__":

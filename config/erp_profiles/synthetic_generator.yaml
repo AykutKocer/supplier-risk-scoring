@@ -14,6 +14,9 @@ required_canonical_columns:
 - city
 - company_size
 - founded_year
+- employee_count
+- vkn
+- supplier_annual_revenue_tl
 - annual_purchase_volume_tl
 - total_orders_last_year
 - late_orders_last_year
@@ -31,6 +34,8 @@ column_mapping: []
 category_maps:
 - canonical_name: company_size
   value_map:
+    mikro: Micro
+    micro: Micro
     kucuk: Small
     small: Small
     orta: Medium
@@ -106,6 +111,12 @@ numeric_columns:
 - canonical_name: founded_year
   decimal_style: international
   target_dtype: Int64
+- canonical_name: employee_count
+  decimal_style: international
+  target_dtype: Int64
+- canonical_name: supplier_annual_revenue_tl
+  decimal_style: auto
+  target_dtype: float
 - canonical_name: annual_purchase_volume_tl
   decimal_style: auto
   target_dtype: float
