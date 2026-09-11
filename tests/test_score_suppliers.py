@@ -5,7 +5,7 @@ concentration-risk logic (docs/research_v2.md section 3.1) added in v2."""
 import pandas as pd
 import pytest
 
-from score_suppliers import compute_portfolio_hhi, compute_risk_score
+from score_suppliers import assign_risk_level, compute_portfolio_hhi, compute_risk_score
 
 
 class TestComputePortfolioHHI:
@@ -71,3 +71,30 @@ class TestDependencyRiskUsesSquaredShare:
         scored = compute_risk_score(df, self._toy_config())
         assert scored.loc[0, "supplier_dependency_ratio"] == pytest.approx(0.02)
         assert scored.loc[1, "supplier_dependency_ratio"] == pytest.approx(0.30)
+
+
+class TestAssignRiskLevel:
+    """assign_risk_level must never crash, even on the degenerate inputs
+    (tiny populations, many tied scores) where the percentile cutoffs
+    collapse onto the same value — a real bug found while testing
+    financial_risk_score against a 3-row toy DataFrame (plain pd.cut raises
+    on duplicate bin edges in that case)."""
+
+    THRESHOLDS = {"low_percentile": 0.34, "high_percentile": 0.67}
+
+    def test_normal_case_produces_all_three_labels(self):
+        scores = pd.Series([10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0])
+        levels = assign_risk_level(scores, self.THRESHOLDS)
+        assert set(levels.astype(str)) == {"Low", "Medium", "High"}
+
+    def test_all_identical_scores_does_not_raise(self):
+        scores = pd.Series([50.0, 50.0, 50.0])
+        levels = assign_risk_level(scores, self.THRESHOLDS)
+        assert not levels.isna().any()
+
+    def test_mostly_zero_with_one_outlier_does_not_raise(self):
+        # The exact shape that broke plain pd.cut: low_cutoff == high_cutoff == 0.0
+        scores = pd.Series([0.0, 0.0, 75.0])
+        levels = assign_risk_level(scores, self.THRESHOLDS)
+        assert levels.iloc[2] == "High"
+        assert not levels.isna().any()

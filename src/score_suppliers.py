@@ -81,6 +81,21 @@ def minmax_normalize_to_100(series: pd.Series) -> pd.Series:
     return (series - min_val) / (max_val - min_val) * 100
 
 
+def assign_risk_level(score: pd.Series, thresholds: dict) -> pd.Series:
+    """Labels a 0-100 score Low/Medium/High by percentile within the given
+    population (see config/scoring_weights.yaml comments for why percentile,
+    not a fixed cutoff). Falls back to a Low/High-only split if the low and
+    high cutoffs land on the same value — degenerate with a very small or
+    very tied population, but a real edge case a robust function shouldn't
+    just crash on (pd.cut errors on duplicate bin edges)."""
+    low_cutoff = score.quantile(thresholds["low_percentile"])
+    high_cutoff = score.quantile(thresholds["high_percentile"])
+    if np.isclose(low_cutoff, high_cutoff):
+        labels = np.where(score > low_cutoff, "High", "Low")
+        return pd.Series(labels, index=score.index, dtype=pd.CategoricalDtype(["Low", "Medium", "High"], ordered=True))
+    return pd.cut(score, bins=[-np.inf, low_cutoff, high_cutoff, np.inf], labels=["Low", "Medium", "High"])
+
+
 def compute_metrics(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
 
@@ -117,6 +132,49 @@ def compute_portfolio_hhi(dependency_ratios: pd.Series) -> float:
     return float((dependency_ratios ** 2).sum() * 10_000)
 
 
+def compute_financial_risk_score(df: pd.DataFrame, thresholds: dict) -> pd.DataFrame:
+    """Computes a separate 0-100 financial_risk_score (higher = riskier),
+    deliberately NOT blended into risk_score.
+
+    Financial/solvency risk ("will this company survive and pay its debts")
+    and operational/performance risk ("does this company deliver well as a
+    supplier") are genuinely different risk *types* — a supplier can be
+    financially fragile but operationally excellent, or vice versa, and
+    merging both into one number hides which kind of risk is actually
+    driving a High rating. Real commercial platforms (e.g. SAP Ariba) keep
+    financial, compliance, and sustainability risk as separate facets for
+    the same reason — see docs/research_v2.md section 6. Keeping this axis
+    separate also means it can be added without touching the existing,
+    already-documented risk_score weights in config/scoring_weights.yaml.
+
+    Conceptually inspired by what a real Findeks Ticari Risk Raporu covers
+    (payment habits, overdue debt, leverage) — NOT a reproduction of KKB's
+    actual proprietary scoring formula, which isn't publicly published; see
+    generate_suppliers.py's financial-field generation comment.
+    """
+    df = df.copy()
+
+    was_missing = impute_median(df, ["overdue_debt_ratio", "debt_to_revenue_ratio"])
+    df["payment_default_last_3y"] = df["payment_default_last_3y"].fillna(False)
+
+    overdue_score = minmax_normalize_to_100(df["overdue_debt_ratio"])
+    leverage_score = minmax_normalize_to_100(df["debt_to_revenue_ratio"])
+    default_score = df["payment_default_last_3y"].astype(float) * 100.0
+
+    df["financial_risk_score"] = (
+        0.30 * overdue_score + 0.30 * leverage_score + 0.40 * default_score
+    ).round(1)
+    df["financial_risk_has_estimated_inputs"] = was_missing
+
+    # Same percentile-based-labeling policy as the operational risk_score
+    # (see compute_risk_score / config comments), applied to this separate
+    # axis independently — reuses the same low/high_percentile config
+    # values as a general "how to bucket a 0-100 risk score" policy, not
+    # something specific to the four operational criteria.
+    df["financial_risk_level"] = assign_risk_level(df["financial_risk_score"], thresholds)
+    return df
+
+
 def compute_risk_score(df: pd.DataFrame, config: dict) -> pd.DataFrame:
     df = df.copy()
     weights = config["weights"]
@@ -144,13 +202,7 @@ def compute_risk_score(df: pd.DataFrame, config: dict) -> pd.DataFrame:
     # Percentile-based cutoffs (see config comments for why): label a
     # supplier relative to the rest of the current population rather than
     # against a fixed absolute score.
-    low_cutoff = df["risk_score"].quantile(thresholds["low_percentile"])
-    high_cutoff = df["risk_score"].quantile(thresholds["high_percentile"])
-    df["risk_level"] = pd.cut(
-        df["risk_score"],
-        bins=[-np.inf, low_cutoff, high_cutoff, np.inf],
-        labels=["Low", "Medium", "High"],
-    )
+    df["risk_level"] = assign_risk_level(df["risk_score"], thresholds)
     return df
 
 
@@ -160,6 +212,7 @@ def main():
 
     df = compute_metrics(df)
     df = compute_risk_score(df, config)
+    df = compute_financial_risk_score(df, config["risk_level_thresholds"])
 
     rate_columns = [
         "delivery_delay_rate", "price_volatility",
@@ -173,14 +226,20 @@ def main():
         ["supplier_id", "company_name", "sector", "city", "company_size"]
         + rate_columns + score_columns
         + ["risk_score", "risk_level", "has_estimated_inputs"]
+        # Separate axis, deliberately not blended into risk_score — see
+        # compute_financial_risk_score's docstring.
+        + ["financial_risk_score", "financial_risk_level", "financial_risk_has_estimated_inputs"]
     )
     result = df[output_columns].sort_values("risk_score", ascending=False)
     result.to_csv(OUTPUT_PATH, index=False, encoding="utf-8-sig")
 
     print(f"Scored {len(result)} suppliers -> {OUTPUT_PATH}")
     print()
-    print("Risk level distribution:")
+    print("Risk level distribution (operational):")
     print(result["risk_level"].value_counts())
+    print()
+    print("Financial risk level distribution (separate axis):")
+    print(result["financial_risk_level"].value_counts())
     print()
     print(f"Suppliers with at least one estimated (imputed) input: {result['has_estimated_inputs'].sum()}")
     print()
@@ -189,8 +248,12 @@ def main():
     print(f"Portfolio concentration (HHI): {portfolio_hhi:.0f} / 10,000 ({hhi_level} concentration, "
           f"DOJ-style thresholds: <1,500 low, 1,500-2,500 moderate, >2,500 high)")
     print()
-    print("Top 5 highest-risk suppliers:")
+    print("Top 5 highest-risk suppliers (operational):")
     print(result[["company_name", "sector", "risk_score", "risk_level"]].head(5).to_string(index=False))
+    print()
+    print("Top 5 highest financial-risk suppliers:")
+    print(result.sort_values("financial_risk_score", ascending=False)
+          [["company_name", "sector", "financial_risk_score", "financial_risk_level"]].head(5).to_string(index=False))
 
 
 if __name__ == "__main__":

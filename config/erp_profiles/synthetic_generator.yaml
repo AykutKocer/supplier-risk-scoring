@@ -30,6 +30,9 @@ required_canonical_columns:
 - last_audit_date
 - payment_terms_days
 - iso_certified
+- overdue_debt_ratio
+- debt_to_revenue_ratio
+- payment_default_last_3y
 column_mapping: []
 category_maps:
 - canonical_name: company_size
@@ -43,6 +46,16 @@ category_maps:
     buyuk: Large
     large: Large
 - canonical_name: iso_certified
+  value_map:
+    evet: true
+    'yes': true
+    '1': true
+    'true': true
+    hayir: false
+    'no': false
+    '0': false
+    'false': false
+- canonical_name: payment_default_last_3y
   value_map:
     evet: true
     'yes': true
@@ -141,6 +154,12 @@ numeric_columns:
 - canonical_name: payment_terms_days
   decimal_style: international
   target_dtype: Int64
+- canonical_name: overdue_debt_ratio
+  decimal_style: auto
+  target_dtype: float
+- canonical_name: debt_to_revenue_ratio
+  decimal_style: auto
+  target_dtype: float
 date_columns:
 - canonical_name: contract_start_date
   formats:

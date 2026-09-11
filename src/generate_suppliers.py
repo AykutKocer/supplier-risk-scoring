@@ -198,6 +198,20 @@ def generate_clean_supplier(supplier_idx: int) -> dict:
 
     iso_probability = {"Mikro": 0.05, "Kucuk": 0.15, "Orta": 0.40, "Buyuk": 0.75}[size]
 
+    # Financial signals, conceptually inspired by the kind of data a real
+    # Findeks Ticari Risk Raporu (Turkey's actual commercial credit bureau
+    # product; see docs/research_v2.md section 0.3) would surface — payment
+    # habits, overdue debt, leverage — NOT a reproduction of KKB's actual
+    # proprietary scoring formula, which isn't publicly published. Smaller
+    # companies get a somewhat worse mean on each signal, reflecting weaker
+    # typical access to favorable credit terms, but with enough spread that
+    # plenty of small suppliers still look financially solid and vice versa.
+    financial_mean_shift = {"Mikro": 0.10, "Kucuk": 0.06, "Orta": 0.02, "Buyuk": -0.02}[size]
+    overdue_debt_ratio = float(np.clip(np.random.beta(2, 5) * 0.4 + financial_mean_shift, 0.0, 0.95))
+    debt_to_revenue_ratio = float(np.clip(np.random.beta(2, 4) * 1.2 + financial_mean_shift, 0.0, 3.0))
+    default_probability = {"Mikro": 0.10, "Kucuk": 0.06, "Orta": 0.03, "Buyuk": 0.01}[size]
+    payment_default_last_3y = random.random() < default_probability
+
     return {
         "supplier_id": f"SUP{supplier_idx:03d}",
         "company_name": build_company_name(sector, size),
@@ -221,6 +235,9 @@ def generate_clean_supplier(supplier_idx: int) -> dict:
         "last_audit_date": last_audit,
         "payment_terms_days": random.choice([30, 45, 60, 90]),
         "iso_certified": random.random() < iso_probability,
+        "overdue_debt_ratio": round(overdue_debt_ratio, 4),
+        "debt_to_revenue_ratio": round(debt_to_revenue_ratio, 4),
+        "payment_default_last_3y": payment_default_last_3y,
     }
 
 
@@ -302,9 +319,16 @@ def messify(df: pd.DataFrame) -> pd.DataFrame:
     df["iso_certified"] = df["iso_certified"].apply(
         lambda b: random.choice(true_variants) if b else random.choice(false_variants)
     )
+    df["payment_default_last_3y"] = df["payment_default_last_3y"].apply(
+        lambda b: random.choice(true_variants) if b else random.choice(false_variants)
+    )
 
     # Monetary / price columns: mixed decimal separators.
-    for col in ["annual_purchase_volume_tl", "supplier_annual_revenue_tl", "price_q1", "price_q2", "price_q3", "price_q4"]:
+    for col in [
+        "annual_purchase_volume_tl", "supplier_annual_revenue_tl",
+        "price_q1", "price_q2", "price_q3", "price_q4",
+        "overdue_debt_ratio", "debt_to_revenue_ratio",
+    ]:
         df[col] = df[col].apply(format_messy_number)
 
     # Dates: mixed formats.
@@ -334,6 +358,9 @@ def messify(df: pd.DataFrame) -> pd.DataFrame:
         "payment_terms_days": 0.05,
         "iso_certified": 0.08,
         "city": 0.02,
+        "overdue_debt_ratio": 0.10,
+        "debt_to_revenue_ratio": 0.10,
+        "payment_default_last_3y": 0.05,
     }
     n = len(df)
     for col, rate in missing_rates.items():
