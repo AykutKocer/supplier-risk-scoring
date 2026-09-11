@@ -106,13 +106,36 @@ def compute_metrics(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def compute_portfolio_hhi(dependency_ratios: pd.Series) -> float:
+    """Herfindahl-Hirschman Index of the whole supplier portfolio: the sum of
+    each supplier's squared share of total spend, scaled to the conventional
+    0-10,000 range. A real, standard economics concentration metric (used by
+    the US DOJ for antitrust review) — not invented for this project. DOJ
+    reference thresholds, also used in procurement concentration-risk
+    contexts: <1,500 = low concentration, 1,500-2,500 = moderate, >2,500 =
+    high. See docs/research_v2.md section 3.1."""
+    return float((dependency_ratios ** 2).sum() * 10_000)
+
+
 def compute_risk_score(df: pd.DataFrame, config: dict) -> pd.DataFrame:
     df = df.copy()
     weights = config["weights"]
     thresholds = config["risk_level_thresholds"]
 
     for metric in REQUIRED_WEIGHT_KEYS:
-        df[f"{metric}_score"] = minmax_normalize_to_100(df[metric])
+        if metric == "supplier_dependency_ratio":
+            # HHI-inspired: normalize on each supplier's *squared* share, not
+            # the linear share, so concentration risk grows non-linearly —
+            # a supplier at 20% of spend is a much bigger single point of
+            # failure than four suppliers at 5% each, and a linear ratio
+            # can't tell those apart the way a squared share does (this is
+            # exactly the logic behind the real HHI concentration index; see
+            # compute_portfolio_hhi). The displayed `supplier_dependency_ratio`
+            # column itself stays the plain, human-readable share — only the
+            # score that feeds risk_score uses the squared version.
+            df[f"{metric}_score"] = minmax_normalize_to_100(df[metric] ** 2)
+        else:
+            df[f"{metric}_score"] = minmax_normalize_to_100(df[metric])
 
     df["risk_score"] = sum(
         df[f"{metric}_score"] * weight for metric, weight in weights.items()
@@ -160,6 +183,11 @@ def main():
     print(result["risk_level"].value_counts())
     print()
     print(f"Suppliers with at least one estimated (imputed) input: {result['has_estimated_inputs'].sum()}")
+    print()
+    portfolio_hhi = compute_portfolio_hhi(df["supplier_dependency_ratio"])
+    hhi_level = "low" if portfolio_hhi < 1_500 else "moderate" if portfolio_hhi < 2_500 else "high"
+    print(f"Portfolio concentration (HHI): {portfolio_hhi:.0f} / 10,000 ({hhi_level} concentration, "
+          f"DOJ-style thresholds: <1,500 low, 1,500-2,500 moderate, >2,500 high)")
     print()
     print("Top 5 highest-risk suppliers:")
     print(result[["company_name", "sector", "risk_score", "risk_level"]].head(5).to_string(index=False))
