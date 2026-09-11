@@ -5,7 +5,7 @@ concentration-risk logic (docs/research_v2.md section 3.1) added in v2."""
 import pandas as pd
 import pytest
 
-from score_suppliers import assign_risk_level, compute_portfolio_hhi, compute_risk_score
+from score_suppliers import assign_risk_level, compute_portfolio_hhi, compute_risk_score, compute_sector_hhi
 
 
 class TestComputePortfolioHHI:
@@ -98,3 +98,50 @@ class TestAssignRiskLevel:
         levels = assign_risk_level(scores, self.THRESHOLDS)
         assert levels.iloc[2] == "High"
         assert not levels.isna().any()
+
+
+class TestComputeSectorHhi:
+    """Per-sector concentration risk (docs/research_v2.md roadmap): a
+    supplier dominant within a small sector can be invisible to
+    portfolio-wide HHI, which is exactly the v1 README's documented
+    limitation this closes."""
+
+    def _toy_df(self):
+        return pd.DataFrame({
+            "sector": ["A", "A", "A", "A", "B", "B"],
+            "annual_purchase_volume_tl": [25, 25, 25, 25, 90, 10],
+        })
+
+    def test_returns_one_row_per_sector(self):
+        result = compute_sector_hhi(self._toy_df())
+        assert set(result["sector"]) == {"A", "B"}
+        assert len(result) == 2
+
+    def test_evenly_split_sector_has_lower_hhi_than_concentrated_sector(self):
+        result = compute_sector_hhi(self._toy_df()).set_index("sector")
+        # Sector A: 4 suppliers at 25% each -> HHI = 4 * 0.25^2 * 10,000 = 2,500
+        # Sector B: 90%/10% split -> HHI = (0.9^2 + 0.1^2) * 10,000 = 8,200
+        assert result.loc["A", "sector_hhi"] == pytest.approx(2500.0)
+        assert result.loc["B", "sector_hhi"] == pytest.approx(8200.0)
+        assert result.loc["B", "sector_hhi"] > result.loc["A", "sector_hhi"]
+
+    def test_sorted_most_concentrated_first(self):
+        result = compute_sector_hhi(self._toy_df())
+        assert result.iloc[0]["sector"] == "B"
+
+    def test_concentration_level_uses_doj_style_thresholds(self):
+        result = compute_sector_hhi(self._toy_df()).set_index("sector")
+        assert result.loc["A", "concentration_level"] == "Moderate"  # 2,500 exactly -> the moderate/high boundary itself
+        assert result.loc["B", "concentration_level"] == "High"
+
+    def test_supplier_count_and_total_volume_are_reported(self):
+        result = compute_sector_hhi(self._toy_df()).set_index("sector")
+        assert result.loc["A", "supplier_count"] == 4
+        assert result.loc["A", "total_purchase_volume_tl"] == pytest.approx(100.0)
+        assert result.loc["B", "supplier_count"] == 2
+        assert result.loc["B", "total_purchase_volume_tl"] == pytest.approx(100.0)
+
+    def test_a_sector_dominated_by_a_single_supplier_hits_the_max(self):
+        df = pd.DataFrame({"sector": ["A", "A", "A"], "annual_purchase_volume_tl": [100, 0, 0]})
+        result = compute_sector_hhi(df).set_index("sector")
+        assert result.loc["A", "sector_hhi"] == pytest.approx(10_000.0)

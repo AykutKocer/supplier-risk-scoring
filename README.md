@@ -125,7 +125,7 @@ Conceptually inspired by what a real **Findeks Ticari Risk Raporu** (Turkey's ac
 commercial credit bureau product) covers — *not* a reproduction of KKB's actual
 proprietary scoring formula, which isn't publicly published.
 
-### Portfolio concentration (HHI)
+### Portfolio & sector concentration (HHI)
 
 `compute_portfolio_hhi()` computes the **Herfindahl-Hirschman Index** — a real, standard
 economics concentration metric (the sum of each supplier's squared share of total spend,
@@ -133,6 +133,14 @@ scaled to the conventional 0-10,000 range) used by the US DOJ for antitrust revi
 here to procurement concentration: <1,500 = low concentration, 1,500-2,500 = moderate,
 >2,500 = high. This is a portfolio-level summary statistic, independent of any single
 supplier's score.
+
+`compute_sector_hhi()` applies the same formula *within* each sector rather than across
+the whole portfolio, writing `reports/sector_concentration.csv`. This closes a limitation
+the v1 README documented explicitly: a supplier that's 12% of all purchasing can look safe
+under portfolio-wide HHI while being 60%+ of a smaller sector — a real single point of
+failure that portfolio-wide HHI alone can't see. On this project's own synthetic dataset,
+the gap is stark: **portfolio HHI is low, but 11 of 12 sectors are individually highly
+concentrated** — exactly the scenario this metric exists to catch.
 
 ### Due-diligence red flags
 
@@ -199,6 +207,7 @@ notebooks/
   supplier_risk_analysis.ipynb   # step-by-step walkthrough with charts
 reports/
   supplier_risk_scores.csv       # scored output (Power BI data source)
+  sector_concentration.csv       # per-sector HHI breakdown
   supplier_risk_dashboard.pbix   # Power BI dashboard
   dax_measures.txt               # reference DAX measures used in the dashboard
 docs/
@@ -278,10 +287,12 @@ not something scriptable from here.
 
 Documented here deliberately, rather than left implicit:
 
-- **Supplier dependency ratio is computed against total portfolio spend**, not per
-  product/commodity category. A supplier that's 12% of *all* purchasing looks riskier than
-  one that's 60% of a single, less-critical category — in a real deployment, computing this
-  per category would usually be more decision-useful. The same applies to the portfolio HHI.
+- **`supplier_dependency_ratio` (the per-supplier score in `risk_score`) is still computed
+  against total portfolio spend**, not per product/commodity category — `compute_sector_hhi()`
+  closes this gap at the *sector summary-statistic* level (see above), but an individual
+  supplier's own `risk_score` does not yet incorporate sector-relative concentration. A
+  supplier that's 12% of *all* purchasing but 60% of its own (smaller) sector would still
+  only be flagged by the separate `sector_concentration.csv` output, not by its own risk score.
 - **Price volatility is based on 4 quarterly price points per supplier** — enough to
   illustrate the method, but a small sample for a real volatility estimate; more frequent
   price history would make this metric more robust.
@@ -344,13 +355,13 @@ someone can't explain is a risk score no one will trust.
 ## Status
 
 **v2 complete:** profile-driven cleaning engine, KOSGEB-aligned company sizing, VKN
-validation, HHI-based concentration risk, AI-assisted profile drafting, a separate
-financial risk axis, due-diligence red flags, AHP-derived weight cross-check — all
-reflected in the data generation, cleaning, scoring, and notebook. The DAX measures for
-the new axes are written (`reports/dax_measures.txt`); adding them to the `.pbix` itself
-is a manual Power BI Desktop step, not yet done (see [Dashboard](#dashboard)).
+validation, portfolio + per-sector HHI-based concentration risk, AI-assisted profile
+drafting, a separate financial risk axis, due-diligence red flags, AHP-derived weight
+cross-check — all reflected in the data generation, cleaning, scoring, and notebook. The
+DAX measures for the new axes are written (`reports/dax_measures.txt`); adding them to the
+`.pbix` itself is a manual Power BI Desktop step, not yet done (see [Dashboard](#dashboard)).
 
 **Open, tracked in `docs/research_v2.md`:** risk-score trend over time, a geopolitical/
-country risk factor, per-sector HHI, and real (verified-against-an-actual-export) Logo/
-Netsis and SAP profile support — the two example ERP profiles in this repo are
-illustrative templates, not tested integrations.
+country risk factor, and real (verified-against-an-actual-export) Logo/Netsis and SAP
+profile support — the two example ERP profiles in this repo are illustrative templates,
+not tested integrations.

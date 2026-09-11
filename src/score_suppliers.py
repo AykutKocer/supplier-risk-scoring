@@ -37,6 +37,7 @@ if hasattr(sys.stdout, "reconfigure"):
 INPUT_PATH = "data/processed/suppliers_clean.csv"
 CONFIG_PATH = "config/scoring_weights.yaml"
 OUTPUT_PATH = "reports/supplier_risk_scores.csv"
+SECTOR_HHI_OUTPUT_PATH = "reports/sector_concentration.csv"
 
 REQUIRED_WEIGHT_KEYS = [
     "delivery_delay_rate",
@@ -130,6 +131,36 @@ def compute_portfolio_hhi(dependency_ratios: pd.Series) -> float:
     contexts: <1,500 = low concentration, 1,500-2,500 = moderate, >2,500 =
     high. See docs/research_v2.md section 3.1."""
     return float((dependency_ratios ** 2).sum() * 10_000)
+
+
+def compute_sector_hhi(df: pd.DataFrame) -> pd.DataFrame:
+    """Per-sector concentration risk: the same HHI formula as
+    compute_portfolio_hhi, but computed against each sector's own total spend
+    rather than portfolio-wide spend.
+
+    This addresses a limitation the v1 README documented explicitly: a
+    supplier that's 12% of *all* purchasing can look riskier under portfolio-
+    wide HHI than one that's 60% of a single, smaller sector — even though
+    the second supplier is a much bigger single point of failure *within
+    that sector*. Portfolio HHI alone can't see this; sector HHI can.
+
+    Requires df['annual_purchase_volume_tl'] to already be imputed (call
+    after compute_metrics). Returns one row per sector, sorted riskiest
+    first, with the same DOJ-style concentration bands as compute_portfolio_hhi."""
+    def _sector_hhi(volumes: pd.Series) -> float:
+        shares = volumes / volumes.sum()
+        return float((shares ** 2).sum() * 10_000)
+
+    grouped = df.groupby("sector")["annual_purchase_volume_tl"]
+    result = pd.DataFrame({
+        "sector_hhi": grouped.apply(_sector_hhi),
+        "supplier_count": grouped.size(),
+        "total_purchase_volume_tl": grouped.sum(),
+    })
+    result["concentration_level"] = pd.cut(
+        result["sector_hhi"], bins=[-np.inf, 1_500, 2_500, np.inf], labels=["Low", "Moderate", "High"]
+    )
+    return result.sort_values("sector_hhi", ascending=False).reset_index()
 
 
 def compute_financial_risk_score(df: pd.DataFrame, thresholds: dict) -> pd.DataFrame:
@@ -248,6 +279,14 @@ def main():
     print(f"Portfolio concentration (HHI): {portfolio_hhi:.0f} / 10,000 ({hhi_level} concentration, "
           f"DOJ-style thresholds: <1,500 low, 1,500-2,500 moderate, >2,500 high)")
     print()
+
+    sector_hhi_df = compute_sector_hhi(df)
+    sector_hhi_df.to_csv(SECTOR_HHI_OUTPUT_PATH, index=False, encoding="utf-8-sig")
+    print(f"Per-sector concentration (HHI) -> {SECTOR_HHI_OUTPUT_PATH}")
+    print("Most concentrated sectors:")
+    print(sector_hhi_df.head(5).to_string(index=False))
+    print()
+
     print("Top 5 highest-risk suppliers (operational):")
     print(result[["company_name", "sector", "risk_score", "risk_level"]].head(5).to_string(index=False))
     print()
