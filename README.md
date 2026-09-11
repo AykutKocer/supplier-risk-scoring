@@ -295,18 +295,23 @@ Power BI Desktop for the dashboard.
 
 ## Dashboard
 
-Three pages: **Overview** (KPI cards, risk-level distribution, top 10 riskiest suppliers),
-**Sector & Geography** (average risk by sector / city / company size), and **Supplier
-Detail** (slicers, a full detail table, top 10 by supplier concentration).
+Three pages: **Overview** (KPI cards, operational and financial risk-level distributions,
+CBAM exposure count, top 10 riskiest suppliers), **Sector & Geography** (average risk by
+sector / city / company size), and **Supplier Detail** (slicers, a full detail table, top
+10 by supplier concentration).
 
 ![Average risk score by sector](docs/images/avg_risk_by_sector.png)
 ![Supplier dependency ratio vs. risk score](docs/images/dependency_vs_risk.png)
 
-**v2 note:** the DAX measures for the financial risk axis and portfolio HHI are written and
-ready in `reports/dax_measures.txt`, but the `.pbix` file itself (a binary Power BI format)
-still needs to be opened in Power BI Desktop to refresh its data source against the new
-`reports/supplier_risk_scores.csv` columns and add visuals for them — that's a manual step,
-not something scriptable from here.
+**v2 update applied:** the Overview page's data source was refreshed against the new v2
+columns (`.pbix`'s CSV connector caches its column count on first import — the classic
+Power Query gotcha of a hardcoded `Columns=N` parameter in the `Csv.Document` source step
+— fixed by editing that step directly) and now includes an Average Financial Risk Score
+card, a CBAM Exposed Count card, and a Financial Risk Level distribution donut alongside
+the original operational one. Both donuts show similar percentages (~60/25/15%) by
+design — both axes use the same percentile-based thresholds — but represent largely
+different suppliers underneath (see [Financial risk axis](#financial-risk-axis-financial_risk_score)
+above and the notebook's disjoint-top-10 check).
 
 ## Notable design decisions
 
@@ -409,9 +414,8 @@ someone can't explain is a risk score no one will trust.
 validation, portfolio + per-sector HHI-based concentration risk, AI-assisted profile
 drafting, a separate financial risk axis, due-diligence red flags, a CBAM/CSRD compliance
 exposure flag, AHP-derived weight cross-check, multi-period risk trend + migration
-detection — all reflected in the data generation, cleaning, scoring, and notebook. The DAX
-measures for the new axes are written (`reports/dax_measures.txt`); adding them to the
-`.pbix` itself is a manual Power BI Desktop step, not yet done (see [Dashboard](#dashboard)).
+detection — all reflected in the data generation, cleaning, scoring, notebook, and the
+Power BI dashboard (see [Dashboard](#dashboard)).
 
 **Open, tracked in `docs/research_v2.md`:** a geopolitical/country risk factor, and real
 (verified-against-an-actual-export) Logo/Netsis and SAP profile support — the two example
