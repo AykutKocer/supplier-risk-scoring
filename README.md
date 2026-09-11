@@ -19,8 +19,7 @@ design decision) for the honest answer.
 
 ## Motivation
 
-I have a Business Administration and Economics background, not an engineering one. But
-through the experience I gained at defense industry companies and the reading I've done,
+Through the experience I gained at defense industry companies and the reading I've done,
 I kept noticing the same gap in procurement and supply chain work: reliable, clean
 supplier data. This project is a self-designed, end-to-end attempt at the kind of tool
 that observation pointed toward: turning messy, real-world-style supplier data into a
