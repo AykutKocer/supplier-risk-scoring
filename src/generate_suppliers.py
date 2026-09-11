@@ -212,6 +212,20 @@ def generate_clean_supplier(supplier_idx: int) -> dict:
     default_probability = {"Mikro": 0.10, "Kucuk": 0.06, "Orta": 0.03, "Buyuk": 0.01}[size]
     payment_default_last_3y = random.random() < default_probability
 
+    # Practitioner-grounded due-diligence red flags — not derived from a
+    # formula, but from concrete qualitative criteria a real Turkish sourcing
+    # consultant (25+ years experience) described using to vet Turkish
+    # suppliers in practice (docs/research_v2.md section 4.3): no
+    # factory-floor evidence, missing export documentation, demanding full
+    # upfront payment. Smaller/newer, less established suppliers are more
+    # likely to trip these — same size-tiered pattern as the other risk
+    # signals, but these are binary presence/absence flags a due-diligence
+    # checklist would record, not a continuous ratio.
+    red_flag_probability = {"Mikro": 0.35, "Kucuk": 0.18, "Orta": 0.07, "Buyuk": 0.02}[size]
+    has_export_documentation = random.random() > red_flag_probability
+    requires_full_upfront_payment = random.random() < red_flag_probability
+    site_visit_verified = random.random() > red_flag_probability * 1.2
+
     return {
         "supplier_id": f"SUP{supplier_idx:03d}",
         "company_name": build_company_name(sector, size),
@@ -238,6 +252,9 @@ def generate_clean_supplier(supplier_idx: int) -> dict:
         "overdue_debt_ratio": round(overdue_debt_ratio, 4),
         "debt_to_revenue_ratio": round(debt_to_revenue_ratio, 4),
         "payment_default_last_3y": payment_default_last_3y,
+        "has_export_documentation": has_export_documentation,
+        "requires_full_upfront_payment": requires_full_upfront_payment,
+        "site_visit_verified": site_visit_verified,
     }
 
 
@@ -322,6 +339,10 @@ def messify(df: pd.DataFrame) -> pd.DataFrame:
     df["payment_default_last_3y"] = df["payment_default_last_3y"].apply(
         lambda b: random.choice(true_variants) if b else random.choice(false_variants)
     )
+    for col in ["has_export_documentation", "requires_full_upfront_payment", "site_visit_verified"]:
+        df[col] = df[col].apply(
+            lambda b: random.choice(true_variants) if b else random.choice(false_variants)
+        )
 
     # Monetary / price columns: mixed decimal separators.
     for col in [
@@ -361,6 +382,9 @@ def messify(df: pd.DataFrame) -> pd.DataFrame:
         "overdue_debt_ratio": 0.10,
         "debt_to_revenue_ratio": 0.10,
         "payment_default_last_3y": 0.05,
+        "has_export_documentation": 0.06,
+        "requires_full_upfront_payment": 0.06,
+        "site_visit_verified": 0.12,  # a site visit not yet happening is common, not an anomaly
     }
     n = len(df)
     for col, rate in missing_rates.items():

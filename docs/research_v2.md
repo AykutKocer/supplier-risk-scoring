@@ -438,7 +438,7 @@ a month" approach.
 | HHI-based concentration risk (portfolio-wide) | Replaces the linear dependency_ratio's *scoring* with the real economics metric | Small | ✅ Done — per-sector HHI still open |
 | AI-assisted source profile drafting | Prompt built from the real Pydantic schema; validates any AI response before trusting it | Medium | ✅ Done (`src/ai_draft_profile.py`, 14 tests) |
 | Separate financial_risk_score axis (Findeks-inspired) | A genuinely new, independent risk dimension — verified top-5 lists are disjoint from operational risk | Medium | ✅ Done — not blended into risk_score, by design |
-| Turkish-context binary red flags (export docs, upfront-payment demand, site verification) | Qualitative, practitioner-grounded signals, not just numeric ratios | Small | ⬜ Not started |
+| Turkish-context binary red flags (export docs, upfront-payment demand, site verification) | Qualitative, practitioner-grounded signals, not just numeric ratios | Small | ✅ Done (size-tiered generation + cleaning, 5 tests) |
 | Risk score trend over time (multiple synthetic time periods) | Addresses the "point-in-time vs continuous" gap without needing live data feeds | Medium | ⬜ Not started |
 | AHP-derived weights (replacing asserted weights) | Rigorous, consistency-checked weight justification — strong interview talking point | Medium | ⬜ Not started |
 | Geopolitical/country risk factor (GPR-index-style) | A real, citable academic data source, relevant once suppliers extend beyond Turkey | Medium | ⬜ Not started |
