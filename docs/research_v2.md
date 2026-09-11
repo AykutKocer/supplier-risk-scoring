@@ -430,13 +430,19 @@ Putting the above together, the honest positioning is:
 Not a commitment — a menu to choose from and pace out over time, per the "no rush, take
 a month" approach.
 
-| Extension | What it adds | Rough effort |
-|---|---|---|
-| HHI-based concentration risk (portfolio-wide and per-sector) | Replaces the linear dependency_ratio with the real economics metric; per-category breakdown | Small |
-| Simulated financial risk (Altman Z″-Score) | A genuinely new risk dimension (financial health), using synthetic financial statement fields | Medium |
-| Turkish-context binary red flags (export docs, upfront-payment demand, site verification) | Qualitative, practitioner-grounded signals, not just numeric ratios | Small |
-| Risk score trend over time (multiple synthetic time periods) | Addresses the "point-in-time vs continuous" gap without needing live data feeds | Medium |
-| AHP-derived weights (replacing asserted weights) | Rigorous, consistency-checked weight justification — strong interview talking point | Medium |
-| Geopolitical/country risk factor (GPR-index-style) | A real, citable academic data source, relevant once suppliers extend beyond Turkey | Medium |
-| ESG/CBAM compliance risk flag for EU-facing exporters | Directly tied to a dated 2026 regulatory requirement — strong "real-world relevance" story | Medium-Large |
-| Logo/Netsis/Mikro-style raw export format support in cleaning | Extends "adapting to your own data" from aspirational to actually demonstrated for the SME segment | Large
+| Extension | What it adds | Rough effort | Status |
+|---|---|---|---|
+| Profile-driven, source-agnostic cleaning architecture | The actual prerequisite for "reusable" — new ERP = new YAML, not new code | — | ✅ Done (`src/cleaning/`, 37 tests) |
+| KOSGEB-aligned company sizing + employee_count + supplier's own revenue | Real Turkish regulatory classification instead of invented tiers | Small | ✅ Done |
+| VKN generation + real checksum validation | A genuine Turkish business-rule check, verified against published test vectors | Small | ✅ Done (`src/cleaning/vkn.py`) |
+| HHI-based concentration risk (portfolio-wide) | Replaces the linear dependency_ratio's *scoring* with the real economics metric | Small | ✅ Done — per-sector HHI still open |
+| AI-assisted source profile drafting | Prompt built from the real Pydantic schema; validates any AI response before trusting it | Medium | ✅ Done (`src/ai_draft_profile.py`, 14 tests) |
+| Separate financial_risk_score axis (Findeks-inspired) | A genuinely new, independent risk dimension — verified top-5 lists are disjoint from operational risk | Medium | ✅ Done — not blended into risk_score, by design |
+| Turkish-context binary red flags (export docs, upfront-payment demand, site verification) | Qualitative, practitioner-grounded signals, not just numeric ratios | Small | ⬜ Not started |
+| Risk score trend over time (multiple synthetic time periods) | Addresses the "point-in-time vs continuous" gap without needing live data feeds | Medium | ⬜ Not started |
+| AHP-derived weights (replacing asserted weights) | Rigorous, consistency-checked weight justification — strong interview talking point | Medium | ⬜ Not started |
+| Geopolitical/country risk factor (GPR-index-style) | A real, citable academic data source, relevant once suppliers extend beyond Turkey | Medium | ⬜ Not started |
+| ESG/CBAM compliance risk flag for EU-facing exporters | Directly tied to a dated 2026 regulatory requirement — strong "real-world relevance" story | Medium-Large | ⬜ Not started |
+| Logo/Netsis/Mikro-style raw export format support in cleaning | Extends "adapting to your own data" from aspirational to actually demonstrated for the SME segment | Large | 🟡 Illustrative example profile exists (`logo_netsis_export_example.yaml`), not yet tested against a real export |
+| Per-sector HHI (not just portfolio-wide) | Directly answers the v1 README's own documented limitation about portfolio-wide-only concentration | Small | ⬜ Not started |
+| Notebook / README / Power BI dashboard updated for all of the above | The new fields and scores aren't visible anywhere outside `reports/supplier_risk_scores.csv` yet | Medium | ⬜ Not started — important before calling v2 "done" |
