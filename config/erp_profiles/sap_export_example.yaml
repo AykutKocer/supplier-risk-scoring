@@ -1,0 +1,66 @@
+# EXAMPLE / ILLUSTRATIVE PROFILE — not verified against a real SAP export.
+#
+# Built from SAP's public, well-documented standard field codes for the
+# vendor master table (LFA1) — LIFNR (vendor number), NAME1 (name), ORT01
+# (city), LAND1 (country) are real, standard SAP Data Dictionary field
+# names used across virtually all SAP installations. What's illustrative
+# here is everything *around* them (which exact columns a given company's
+# export would include, exact date/number formatting) — those vary by
+# configuration and were not tested against a real file.
+#
+# Purpose: demonstrates that adding a new source system to this project
+# means writing a profile like this one, not new Python code. See
+# src/cleaning/engine.py and synthetic_generator.yaml for the profile this
+# project actually runs against today.
+
+name: sap_export_example
+description: >
+  Illustrative SAP-style vendor master (LFA1-like) export profile, built from
+  SAP's public standard field naming conventions. Not tested against a real
+  SAP export — treat as a documented starting point, not a verified profile.
+encoding: utf-8-sig
+
+column_mapping:
+  - source_name: LIFNR
+    canonical_name: supplier_id
+  - source_name: NAME1
+    canonical_name: company_name
+  - source_name: ORT01
+    canonical_name: city
+  - source_name: BRSCH
+    canonical_name: sector          # SAP "Industry key" field
+  - source_name: ZTERM
+    canonical_name: payment_terms_days
+
+required_canonical_columns:
+  - supplier_id
+  - company_name
+  - city
+
+# SAP exports are typically already period-decimal (international) and
+# ISO or DD.MM.YYYY dated, depending on the exporting user's own SAP logon
+# language/locale settings — both are included since either is plausible.
+numeric_columns:
+  - canonical_name: payment_terms_days
+    decimal_style: international
+    target_dtype: Int64
+
+date_columns: []
+
+# SAP's BRSCH (industry key) values would need to be mapped to this
+# project's canonical sector list per the specific company's own SAP
+# customizing — left empty here since that mapping is genuinely
+# company-specific and can't be guessed.
+closed_list_columns: []
+category_maps: []
+free_text_title_case_columns:
+  - canonical_name: company_name
+    known_suffixes:
+      a.s.: A.Ş.
+      ltd.: Ltd.
+      sti.: Şti.
+      tic.: Tic.
+      san.: San.
+      gmbh: GmbH
+      inc.: Inc.
+      llc: LLC

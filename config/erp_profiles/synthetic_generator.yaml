@@ -1,0 +1,230 @@
+# yaml-language-server: $schema=
+# Auto-generated from src/generate_suppliers.py's canonical lists — see
+# scratchpad/build_synthetic_profile.py. Do not hand-edit the sector/city
+# lists here; regenerate instead if generate_suppliers.py's lists change.
+name: synthetic_generator
+description: 'Matches the raw output of src/generate_suppliers.py — this project''s own synthetic, intentionally
+  messy Turkish supplier dataset. This is the ''reference'' profile: v1''s clean_suppliers.py behavior,
+  reproduced exactly through the v2 profile-driven engine, as a regression check.'
+encoding: utf-8-sig
+required_canonical_columns:
+- supplier_id
+- company_name
+- sector
+- city
+- company_size
+- founded_year
+- employee_count
+- vkn
+- supplier_annual_revenue_tl
+- annual_purchase_volume_tl
+- total_orders_last_year
+- late_orders_last_year
+- price_q1
+- price_q2
+- price_q3
+- price_q4
+- units_shipped_last_year
+- units_returned_last_year
+- contract_start_date
+- last_audit_date
+- payment_terms_days
+- iso_certified
+- overdue_debt_ratio
+- debt_to_revenue_ratio
+- payment_default_last_3y
+- has_export_documentation
+- requires_full_upfront_payment
+- site_visit_verified
+- exports_to_eu
+- has_emissions_reporting_capability
+column_mapping: []
+category_maps:
+- canonical_name: company_size
+  value_map:
+    mikro: Micro
+    micro: Micro
+    kucuk: Small
+    small: Small
+    orta: Medium
+    medium: Medium
+    buyuk: Large
+    large: Large
+- canonical_name: iso_certified
+  value_map:
+    evet: true
+    'yes': true
+    '1': true
+    'true': true
+    hayir: false
+    'no': false
+    '0': false
+    'false': false
+- canonical_name: payment_default_last_3y
+  value_map:
+    evet: true
+    'yes': true
+    '1': true
+    'true': true
+    hayir: false
+    'no': false
+    '0': false
+    'false': false
+- canonical_name: has_export_documentation
+  value_map:
+    evet: true
+    'yes': true
+    '1': true
+    'true': true
+    hayir: false
+    'no': false
+    '0': false
+    'false': false
+- canonical_name: requires_full_upfront_payment
+  value_map:
+    evet: true
+    'yes': true
+    '1': true
+    'true': true
+    hayir: false
+    'no': false
+    '0': false
+    'false': false
+- canonical_name: site_visit_verified
+  value_map:
+    evet: true
+    'yes': true
+    '1': true
+    'true': true
+    hayir: false
+    'no': false
+    '0': false
+    'false': false
+- canonical_name: exports_to_eu
+  value_map:
+    evet: true
+    'yes': true
+    '1': true
+    'true': true
+    hayir: false
+    'no': false
+    '0': false
+    'false': false
+- canonical_name: has_emissions_reporting_capability
+  value_map:
+    evet: true
+    'yes': true
+    '1': true
+    'true': true
+    hayir: false
+    'no': false
+    '0': false
+    'false': false
+closed_list_columns:
+- canonical_name: sector
+  canonical_values:
+  - Tekstil
+  - Otomotiv Yan Sanayi
+  - Gıda ve İçecek
+  - Elektronik
+  - Kimya
+  - Metal ve Çelik
+  - İnşaat Malzemeleri
+  - Ambalaj
+  - Lojistik
+  - Mobilya
+  - Plastik ve Kauçuk
+  - Makine İmalat
+- canonical_name: city
+  canonical_values:
+  - Adana
+  - Ankara
+  - Antalya
+  - Aydın
+  - Balıkesir
+  - Bursa
+  - Denizli
+  - Diyarbakır
+  - Eskişehir
+  - Gaziantep
+  - Kahramanmaraş
+  - Kayseri
+  - Kocaeli
+  - Konya
+  - Malatya
+  - Manisa
+  - Mersin
+  - Sakarya
+  - Samsun
+  - Tekirdağ
+  - Trabzon
+  - Van
+  - Çorum
+  - İstanbul
+  - İzmir
+  - Şanlıurfa
+free_text_title_case_columns:
+- canonical_name: company_name
+  known_suffixes:
+    a.s.: A.Ş.
+    as.: A.Ş.
+    ltd.: Ltd.
+    sti.: Şti.
+    tic.: Tic.
+    san.: San.
+    ve: ve
+    holding: Holding
+    grup: Grup
+numeric_columns:
+- canonical_name: founded_year
+  decimal_style: international
+  target_dtype: Int64
+- canonical_name: employee_count
+  decimal_style: international
+  target_dtype: Int64
+- canonical_name: supplier_annual_revenue_tl
+  decimal_style: auto
+  target_dtype: float
+- canonical_name: annual_purchase_volume_tl
+  decimal_style: auto
+  target_dtype: float
+- canonical_name: late_orders_last_year
+  decimal_style: international
+  target_dtype: Int64
+- canonical_name: price_q1
+  decimal_style: auto
+  target_dtype: float
+- canonical_name: price_q2
+  decimal_style: auto
+  target_dtype: float
+- canonical_name: price_q3
+  decimal_style: auto
+  target_dtype: float
+- canonical_name: price_q4
+  decimal_style: auto
+  target_dtype: float
+- canonical_name: units_returned_last_year
+  decimal_style: international
+  target_dtype: Int64
+- canonical_name: payment_terms_days
+  decimal_style: international
+  target_dtype: Int64
+- canonical_name: overdue_debt_ratio
+  decimal_style: auto
+  target_dtype: float
+- canonical_name: debt_to_revenue_ratio
+  decimal_style: auto
+  target_dtype: float
+date_columns:
+- canonical_name: contract_start_date
+  formats:
+  - '%d.%m.%Y'
+  - '%Y-%m-%d'
+  - '%d/%m/%Y'
+  - '%d-%m-%y'
+- canonical_name: last_audit_date
+  formats:
+  - '%d.%m.%Y'
+  - '%Y-%m-%d'
+  - '%d/%m/%Y'
+  - '%d-%m-%y'

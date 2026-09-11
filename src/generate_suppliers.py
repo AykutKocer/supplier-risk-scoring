@@ -18,9 +18,14 @@ stage (cleaning) has real problems to solve.
 """
 
 import random
+import sys
+
 import numpy as np
 import pandas as pd
 from faker import Faker
+
+sys.path.append(".")  # lets `python src/generate_suppliers.py` find the cleaning package
+from cleaning import vkn
 
 RANDOM_SEED = 42
 N_SUPPLIERS = 85
@@ -35,10 +40,15 @@ Faker.seed(RANDOM_SEED)
 # Reference data
 # ---------------------------------------------------------------------------
 
-# Company size categories with a Turkish-SME-skewed distribution
-# (most real Turkish enterprises are small/medium, few are large industrials).
-COMPANY_SIZES = ["Kucuk", "Orta", "Buyuk"]
-COMPANY_SIZE_WEIGHTS = [0.50, 0.35, 0.15]
+# Company size tiers follow Turkey's official KOSGEB SME classification
+# (employee count + annual revenue/balance sheet thresholds), not an
+# invented split — see docs/research_v2.md section 0.1 for the source
+# regulation. Weights are skewed toward smaller tiers (most real Turkish
+# enterprises are SMEs) but less extreme than the national distribution,
+# since a company substantial enough to be a supplier to a mid/large buyer
+# skews a bit larger than the economy-wide average.
+COMPANY_SIZES = ["Mikro", "Kucuk", "Orta", "Buyuk"]
+COMPANY_SIZE_WEIGHTS = [0.20, 0.40, 0.30, 0.10]
 
 # Sector-independent (non-defense) industries relevant to Turkish supply chains.
 SECTORS = {
@@ -70,6 +80,7 @@ OTHER_CITIES = [
 CITY_POOL = INDUSTRIAL_CITIES * 3 + OTHER_CITIES  # weighted pool for random.choice
 
 COMPANY_SUFFIXES_BY_SIZE = {
+    "Mikro": ["Ltd. Şti.", "Tic."],
     "Kucuk": ["Ltd. Şti.", "Tic."],
     "Orta": ["San. Tic. Ltd. Şti.", "San. ve Tic. A.Ş."],
     "Buyuk": ["Holding A.Ş.", "San. ve Tic. A.Ş.", "Grup A.Ş."],
@@ -78,10 +89,34 @@ COMPANY_SUFFIXES_BY_SIZE = {
 # Ranges of key business metrics per company size (min, max), used to keep
 # generated numbers internally plausible (a "Buyuk" supplier ships more units
 # and moves more money than a "Kucuk" one).
+#
+# employee_count and supplier_annual_revenue_tl are sized to fall inside
+# their tier's official KOSGEB bounds (see COMPANY_SIZES comment above) —
+# these represent the SUPPLIER'S OWN total headcount/revenue, which is a
+# different thing from annual_purchase_volume_tl (how much of that revenue
+# comes specifically from selling to the buyer running this analysis).
+# annual_purchase_volume_tl is derived as a fraction of
+# supplier_annual_revenue_tl at generation time (see generate_clean_supplier)
+# rather than sampled independently, so the two numbers stay realistically
+# related instead of potentially self-contradictory (e.g. a supplier whose
+# sales to us alone would exceed their entire company revenue).
 RANGES = {
+    "Mikro": {
+        "founded_year": (2000, 2023),
+        "employee_count": (1, 9),
+        "supplier_annual_revenue_tl": (500_000, 10_000_000),
+        "purchase_share_of_revenue": (0.05, 0.35),
+        "total_orders": (5, 30),
+        "unit_price": (10, 200),
+        "units_shipped": (100, 5_000),
+        "delay_rate_mean": 0.20,
+        "return_rate_mean": 0.06,
+    },
     "Kucuk": {
         "founded_year": (1985, 2018),
-        "annual_purchase_volume_tl": (150_000, 4_000_000),
+        "employee_count": (10, 49),
+        "supplier_annual_revenue_tl": (10_000_000, 100_000_000),
+        "purchase_share_of_revenue": (0.03, 0.25),
         "total_orders": (10, 60),
         "unit_price": (20, 400),
         "units_shipped": (500, 15_000),
@@ -90,7 +125,9 @@ RANGES = {
     },
     "Orta": {
         "founded_year": (1975, 2012),
-        "annual_purchase_volume_tl": (3_000_000, 25_000_000),
+        "employee_count": (50, 249),
+        "supplier_annual_revenue_tl": (100_000_000, 1_000_000_000),
+        "purchase_share_of_revenue": (0.01, 0.15),
         "total_orders": (40, 150),
         "unit_price": (50, 1200),
         "units_shipped": (10_000, 120_000),
@@ -99,7 +136,9 @@ RANGES = {
     },
     "Buyuk": {
         "founded_year": (1950, 2005),
-        "annual_purchase_volume_tl": (20_000_000, 180_000_000),
+        "employee_count": (250, 3000),
+        "supplier_annual_revenue_tl": (1_000_000_000, 8_000_000_000),
+        "purchase_share_of_revenue": (0.005, 0.08),
         "total_orders": (100, 400),
         "unit_price": (100, 5000),
         "units_shipped": (80_000, 900_000),
@@ -153,6 +192,53 @@ def generate_clean_supplier(supplier_idx: int) -> dict:
     contract_start = fake.date_between(start_date="-10y", end_date="-1y")
     last_audit = fake.date_between(start_date="-2y", end_date="today")
 
+    supplier_revenue = round(random.uniform(*r["supplier_annual_revenue_tl"]), 2)
+    purchase_share = random.uniform(*r["purchase_share_of_revenue"])
+    annual_purchase_volume = round(supplier_revenue * purchase_share, 2)
+
+    iso_probability = {"Mikro": 0.05, "Kucuk": 0.15, "Orta": 0.40, "Buyuk": 0.75}[size]
+
+    # Financial signals, conceptually inspired by the kind of data a real
+    # Findeks Ticari Risk Raporu (Turkey's actual commercial credit bureau
+    # product; see docs/research_v2.md section 0.3) would surface — payment
+    # habits, overdue debt, leverage — NOT a reproduction of KKB's actual
+    # proprietary scoring formula, which isn't publicly published. Smaller
+    # companies get a somewhat worse mean on each signal, reflecting weaker
+    # typical access to favorable credit terms, but with enough spread that
+    # plenty of small suppliers still look financially solid and vice versa.
+    financial_mean_shift = {"Mikro": 0.10, "Kucuk": 0.06, "Orta": 0.02, "Buyuk": -0.02}[size]
+    overdue_debt_ratio = float(np.clip(np.random.beta(2, 5) * 0.4 + financial_mean_shift, 0.0, 0.95))
+    debt_to_revenue_ratio = float(np.clip(np.random.beta(2, 4) * 1.2 + financial_mean_shift, 0.0, 3.0))
+    default_probability = {"Mikro": 0.10, "Kucuk": 0.06, "Orta": 0.03, "Buyuk": 0.01}[size]
+    payment_default_last_3y = random.random() < default_probability
+
+    # Practitioner-grounded due-diligence red flags — not derived from a
+    # formula, but from concrete qualitative criteria a real Turkish sourcing
+    # consultant (25+ years experience) described using to vet Turkish
+    # suppliers in practice (docs/research_v2.md section 4.3): no
+    # factory-floor evidence, missing export documentation, demanding full
+    # upfront payment. Smaller/newer, less established suppliers are more
+    # likely to trip these — same size-tiered pattern as the other risk
+    # signals, but these are binary presence/absence flags a due-diligence
+    # checklist would record, not a continuous ratio.
+    red_flag_probability = {"Mikro": 0.35, "Kucuk": 0.18, "Orta": 0.07, "Buyuk": 0.02}[size]
+    has_export_documentation = random.random() > red_flag_probability
+    requires_full_upfront_payment = random.random() < red_flag_probability
+    site_visit_verified = random.random() > red_flag_probability * 1.2
+
+    # CBAM/CSRD compliance signals (docs/research_v2.md section 4.2): the
+    # EU's Carbon Border Adjustment Mechanism enters its definitive regime in
+    # 2026, naming Turkey specifically (alongside China and India) as among
+    # the most-exposed countries for steel/aluminum exports. Larger, more
+    # established companies are more likely to both export internationally
+    # and already have the emissions-reporting capability CBAM/CSRD requires
+    # -- same size-tiered pattern as iso_certified, for the same underlying
+    # reason (compliance infrastructure scales with company maturity).
+    exports_to_eu_probability = {"Mikro": 0.03, "Kucuk": 0.08, "Orta": 0.20, "Buyuk": 0.40}[size]
+    emissions_reporting_probability = {"Mikro": 0.03, "Kucuk": 0.10, "Orta": 0.30, "Buyuk": 0.65}[size]
+    exports_to_eu = random.random() < exports_to_eu_probability
+    has_emissions_reporting_capability = random.random() < emissions_reporting_probability
+
     return {
         "supplier_id": f"SUP{supplier_idx:03d}",
         "company_name": build_company_name(sector, size),
@@ -160,7 +246,10 @@ def generate_clean_supplier(supplier_idx: int) -> dict:
         "city": random.choice(CITY_POOL),
         "company_size": size,
         "founded_year": random.randint(*r["founded_year"]),
-        "annual_purchase_volume_tl": round(random.uniform(*r["annual_purchase_volume_tl"]), 2),
+        "employee_count": random.randint(*r["employee_count"]),
+        "vkn": vkn.generate(),
+        "supplier_annual_revenue_tl": supplier_revenue,
+        "annual_purchase_volume_tl": annual_purchase_volume,
         "total_orders_last_year": total_orders,
         "late_orders_last_year": late_orders,
         "price_q1": quarterly_prices[0],
@@ -172,7 +261,15 @@ def generate_clean_supplier(supplier_idx: int) -> dict:
         "contract_start_date": contract_start,
         "last_audit_date": last_audit,
         "payment_terms_days": random.choice([30, 45, 60, 90]),
-        "iso_certified": random.random() < (0.75 if size == "Buyuk" else 0.4 if size == "Orta" else 0.15),
+        "iso_certified": random.random() < iso_probability,
+        "overdue_debt_ratio": round(overdue_debt_ratio, 4),
+        "debt_to_revenue_ratio": round(debt_to_revenue_ratio, 4),
+        "payment_default_last_3y": payment_default_last_3y,
+        "has_export_documentation": has_export_documentation,
+        "requires_full_upfront_payment": requires_full_upfront_payment,
+        "site_visit_verified": site_visit_verified,
+        "exports_to_eu": exports_to_eu,
+        "has_emissions_reporting_capability": has_emissions_reporting_capability,
     }
 
 
@@ -229,11 +326,24 @@ def messify(df: pd.DataFrame) -> pd.DataFrame:
 
     # Company size labels written inconsistently across rows.
     size_variants = {
+        "Mikro": ["Mikro", "mikro", "MİKRO", "Micro"],
         "Kucuk": ["Küçük", "küçük", "KÜÇÜK", "Small"],
         "Orta": ["Orta", "orta", "ORTA", "Medium"],
         "Buyuk": ["Büyük", "büyük", "BÜYÜK", "Large"],
     }
     df["company_size"] = df["company_size"].apply(lambda s: random.choice(size_variants[s]))
+
+    # VKN: a small fraction get a single-digit typo (breaks the checksum,
+    # simulating manual entry error — a genuine data-quality issue the
+    # cleaning step's VKN validator is meant to catch, not something the
+    # generic engine can silently fix).
+    def _maybe_corrupt_vkn(v):
+        if random.random() < 0.08:
+            pos = random.randint(0, 8)  # corrupt one of the first 9 digits, never the check digit itself
+            digit = str((int(v[pos]) + random.randint(1, 9)) % 10)
+            return v[:pos] + digit + v[pos + 1:]
+        return v
+    df["vkn"] = df["vkn"].apply(_maybe_corrupt_vkn)
 
     # ISO certification written as inconsistent yes/no representations.
     true_variants = ["Evet", "evet", "EVET", "Yes", "1", "true"]
@@ -241,9 +351,23 @@ def messify(df: pd.DataFrame) -> pd.DataFrame:
     df["iso_certified"] = df["iso_certified"].apply(
         lambda b: random.choice(true_variants) if b else random.choice(false_variants)
     )
+    df["payment_default_last_3y"] = df["payment_default_last_3y"].apply(
+        lambda b: random.choice(true_variants) if b else random.choice(false_variants)
+    )
+    for col in [
+        "has_export_documentation", "requires_full_upfront_payment", "site_visit_verified",
+        "exports_to_eu", "has_emissions_reporting_capability",
+    ]:
+        df[col] = df[col].apply(
+            lambda b: random.choice(true_variants) if b else random.choice(false_variants)
+        )
 
     # Monetary / price columns: mixed decimal separators.
-    for col in ["annual_purchase_volume_tl", "price_q1", "price_q2", "price_q3", "price_q4"]:
+    for col in [
+        "annual_purchase_volume_tl", "supplier_annual_revenue_tl",
+        "price_q1", "price_q2", "price_q3", "price_q4",
+        "overdue_debt_ratio", "debt_to_revenue_ratio",
+    ]:
         df[col] = df[col].apply(format_messy_number)
 
     # Dates: mixed formats.
@@ -259,6 +383,8 @@ def messify(df: pd.DataFrame) -> pd.DataFrame:
     # Inject missing values at column-specific rates.
     missing_rates = {
         "founded_year": 0.10,
+        "employee_count": 0.06,
+        "supplier_annual_revenue_tl": 0.07,
         "annual_purchase_volume_tl": 0.05,
         "late_orders_last_year": 0.04,
         "price_q1": 0.06,
@@ -271,6 +397,14 @@ def messify(df: pd.DataFrame) -> pd.DataFrame:
         "payment_terms_days": 0.05,
         "iso_certified": 0.08,
         "city": 0.02,
+        "overdue_debt_ratio": 0.10,
+        "debt_to_revenue_ratio": 0.10,
+        "payment_default_last_3y": 0.05,
+        "has_export_documentation": 0.06,
+        "requires_full_upfront_payment": 0.06,
+        "site_visit_verified": 0.12,  # a site visit not yet happening is common, not an anomaly
+        "exports_to_eu": 0.07,
+        "has_emissions_reporting_capability": 0.09,
     }
     n = len(df)
     for col, rate in missing_rates.items():

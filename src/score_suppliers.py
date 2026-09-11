@@ -36,7 +36,9 @@ if hasattr(sys.stdout, "reconfigure"):
 
 INPUT_PATH = "data/processed/suppliers_clean.csv"
 CONFIG_PATH = "config/scoring_weights.yaml"
+CBAM_CONFIG_PATH = "config/cbam_sectors.yaml"
 OUTPUT_PATH = "reports/supplier_risk_scores.csv"
+SECTOR_HHI_OUTPUT_PATH = "reports/sector_concentration.csv"
 
 REQUIRED_WEIGHT_KEYS = [
     "delivery_delay_rate",
@@ -81,6 +83,21 @@ def minmax_normalize_to_100(series: pd.Series) -> pd.Series:
     return (series - min_val) / (max_val - min_val) * 100
 
 
+def assign_risk_level(score: pd.Series, thresholds: dict) -> pd.Series:
+    """Labels a 0-100 score Low/Medium/High by percentile within the given
+    population (see config/scoring_weights.yaml comments for why percentile,
+    not a fixed cutoff). Falls back to a Low/High-only split if the low and
+    high cutoffs land on the same value — degenerate with a very small or
+    very tied population, but a real edge case a robust function shouldn't
+    just crash on (pd.cut errors on duplicate bin edges)."""
+    low_cutoff = score.quantile(thresholds["low_percentile"])
+    high_cutoff = score.quantile(thresholds["high_percentile"])
+    if np.isclose(low_cutoff, high_cutoff):
+        labels = np.where(score > low_cutoff, "High", "Low")
+        return pd.Series(labels, index=score.index, dtype=pd.CategoricalDtype(["Low", "Medium", "High"], ordered=True))
+    return pd.cut(score, bins=[-np.inf, low_cutoff, high_cutoff, np.inf], labels=["Low", "Medium", "High"])
+
+
 def compute_metrics(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
 
@@ -106,13 +123,139 @@ def compute_metrics(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def compute_portfolio_hhi(dependency_ratios: pd.Series) -> float:
+    """Herfindahl-Hirschman Index of the whole supplier portfolio: the sum of
+    each supplier's squared share of total spend, scaled to the conventional
+    0-10,000 range. A real, standard economics concentration metric (used by
+    the US DOJ for antitrust review) — not invented for this project. DOJ
+    reference thresholds, also used in procurement concentration-risk
+    contexts: <1,500 = low concentration, 1,500-2,500 = moderate, >2,500 =
+    high. See docs/research_v2.md section 3.1."""
+    return float((dependency_ratios ** 2).sum() * 10_000)
+
+
+def compute_sector_hhi(df: pd.DataFrame) -> pd.DataFrame:
+    """Per-sector concentration risk: the same HHI formula as
+    compute_portfolio_hhi, but computed against each sector's own total spend
+    rather than portfolio-wide spend.
+
+    This addresses a limitation the v1 README documented explicitly: a
+    supplier that's 12% of *all* purchasing can look riskier under portfolio-
+    wide HHI than one that's 60% of a single, smaller sector — even though
+    the second supplier is a much bigger single point of failure *within
+    that sector*. Portfolio HHI alone can't see this; sector HHI can.
+
+    Requires df['annual_purchase_volume_tl'] to already be imputed (call
+    after compute_metrics). Returns one row per sector, sorted riskiest
+    first, with the same DOJ-style concentration bands as compute_portfolio_hhi."""
+    def _sector_hhi(volumes: pd.Series) -> float:
+        shares = volumes / volumes.sum()
+        return float((shares ** 2).sum() * 10_000)
+
+    grouped = df.groupby("sector")["annual_purchase_volume_tl"]
+    result = pd.DataFrame({
+        "sector_hhi": grouped.apply(_sector_hhi),
+        "supplier_count": grouped.size(),
+        "total_purchase_volume_tl": grouped.sum(),
+    })
+    result["concentration_level"] = pd.cut(
+        result["sector_hhi"], bins=[-np.inf, 1_500, 2_500, np.inf], labels=["Low", "Moderate", "High"]
+    )
+    return result.sort_values("sector_hhi", ascending=False).reset_index()
+
+
+def load_cbam_config(path: str) -> list:
+    with open(path, encoding="utf-8") as f:
+        return yaml.safe_load(f)["cbam_covered_sectors"]
+
+
+def compute_cbam_compliance_risk(df: pd.DataFrame, cbam_covered_sectors: list) -> pd.Series:
+    """Flags a specific, dated compliance exposure: a supplier in a
+    CBAM-covered sector (config/cbam_sectors.yaml), selling into the EU,
+    without the emissions-reporting capability CBAM/CSRD actually requires.
+
+    This is a boolean applicability + gap check, not a continuous score --
+    either a supplier has this concrete exposure or it doesn't. Not blended
+    into risk_score or financial_risk_score, for the same reason those two
+    stay separate from each other: a compliance exposure is a different
+    *kind* of risk than operational or financial performance, and merging
+    it in would hide which one is actually driving a rating.
+
+    docs/research_v2.md section 4.2: the EU's Carbon Border Adjustment
+    Mechanism enters its definitive regime in 2026, naming Turkey
+    specifically (alongside China and India) as among the most-exposed
+    countries, particularly for steel/aluminum exports. Non-compliance risk
+    is not just administrative -- inaccurate or missing embedded-carbon
+    reporting can trigger EU financial penalties, import delays, and
+    market-access restrictions."""
+    in_scope_sector = df["sector"].isin(cbam_covered_sectors)
+    exports_to_eu = df["exports_to_eu"].fillna(False).astype(bool)
+    lacks_reporting = ~df["has_emissions_reporting_capability"].fillna(False).astype(bool)
+    return in_scope_sector & exports_to_eu & lacks_reporting
+
+
+def compute_financial_risk_score(df: pd.DataFrame, thresholds: dict) -> pd.DataFrame:
+    """Computes a separate 0-100 financial_risk_score (higher = riskier),
+    deliberately NOT blended into risk_score.
+
+    Financial/solvency risk ("will this company survive and pay its debts")
+    and operational/performance risk ("does this company deliver well as a
+    supplier") are genuinely different risk *types* — a supplier can be
+    financially fragile but operationally excellent, or vice versa, and
+    merging both into one number hides which kind of risk is actually
+    driving a High rating. Real commercial platforms (e.g. SAP Ariba) keep
+    financial, compliance, and sustainability risk as separate facets for
+    the same reason — see docs/research_v2.md section 6. Keeping this axis
+    separate also means it can be added without touching the existing,
+    already-documented risk_score weights in config/scoring_weights.yaml.
+
+    Conceptually inspired by what a real Findeks Ticari Risk Raporu covers
+    (payment habits, overdue debt, leverage) — NOT a reproduction of KKB's
+    actual proprietary scoring formula, which isn't publicly published; see
+    generate_suppliers.py's financial-field generation comment.
+    """
+    df = df.copy()
+
+    was_missing = impute_median(df, ["overdue_debt_ratio", "debt_to_revenue_ratio"])
+    df["payment_default_last_3y"] = df["payment_default_last_3y"].fillna(False)
+
+    overdue_score = minmax_normalize_to_100(df["overdue_debt_ratio"])
+    leverage_score = minmax_normalize_to_100(df["debt_to_revenue_ratio"])
+    default_score = df["payment_default_last_3y"].astype(float) * 100.0
+
+    df["financial_risk_score"] = (
+        0.30 * overdue_score + 0.30 * leverage_score + 0.40 * default_score
+    ).round(1)
+    df["financial_risk_has_estimated_inputs"] = was_missing
+
+    # Same percentile-based-labeling policy as the operational risk_score
+    # (see compute_risk_score / config comments), applied to this separate
+    # axis independently — reuses the same low/high_percentile config
+    # values as a general "how to bucket a 0-100 risk score" policy, not
+    # something specific to the four operational criteria.
+    df["financial_risk_level"] = assign_risk_level(df["financial_risk_score"], thresholds)
+    return df
+
+
 def compute_risk_score(df: pd.DataFrame, config: dict) -> pd.DataFrame:
     df = df.copy()
     weights = config["weights"]
     thresholds = config["risk_level_thresholds"]
 
     for metric in REQUIRED_WEIGHT_KEYS:
-        df[f"{metric}_score"] = minmax_normalize_to_100(df[metric])
+        if metric == "supplier_dependency_ratio":
+            # HHI-inspired: normalize on each supplier's *squared* share, not
+            # the linear share, so concentration risk grows non-linearly —
+            # a supplier at 20% of spend is a much bigger single point of
+            # failure than four suppliers at 5% each, and a linear ratio
+            # can't tell those apart the way a squared share does (this is
+            # exactly the logic behind the real HHI concentration index; see
+            # compute_portfolio_hhi). The displayed `supplier_dependency_ratio`
+            # column itself stays the plain, human-readable share — only the
+            # score that feeds risk_score uses the squared version.
+            df[f"{metric}_score"] = minmax_normalize_to_100(df[metric] ** 2)
+        else:
+            df[f"{metric}_score"] = minmax_normalize_to_100(df[metric])
 
     df["risk_score"] = sum(
         df[f"{metric}_score"] * weight for metric, weight in weights.items()
@@ -121,13 +264,7 @@ def compute_risk_score(df: pd.DataFrame, config: dict) -> pd.DataFrame:
     # Percentile-based cutoffs (see config comments for why): label a
     # supplier relative to the rest of the current population rather than
     # against a fixed absolute score.
-    low_cutoff = df["risk_score"].quantile(thresholds["low_percentile"])
-    high_cutoff = df["risk_score"].quantile(thresholds["high_percentile"])
-    df["risk_level"] = pd.cut(
-        df["risk_score"],
-        bins=[-np.inf, low_cutoff, high_cutoff, np.inf],
-        labels=["Low", "Medium", "High"],
-    )
+    df["risk_level"] = assign_risk_level(df["risk_score"], thresholds)
     return df
 
 
@@ -137,6 +274,9 @@ def main():
 
     df = compute_metrics(df)
     df = compute_risk_score(df, config)
+    df = compute_financial_risk_score(df, config["risk_level_thresholds"])
+    cbam_covered_sectors = load_cbam_config(CBAM_CONFIG_PATH)
+    df["cbam_compliance_risk"] = compute_cbam_compliance_risk(df, cbam_covered_sectors)
 
     rate_columns = [
         "delivery_delay_rate", "price_volatility",
@@ -150,19 +290,48 @@ def main():
         ["supplier_id", "company_name", "sector", "city", "company_size"]
         + rate_columns + score_columns
         + ["risk_score", "risk_level", "has_estimated_inputs"]
+        # Separate axis, deliberately not blended into risk_score — see
+        # compute_financial_risk_score's docstring.
+        + ["financial_risk_score", "financial_risk_level", "financial_risk_has_estimated_inputs"]
+        # A boolean compliance flag, not a score — see
+        # compute_cbam_compliance_risk's docstring for why it stays separate.
+        + ["cbam_compliance_risk"]
     )
     result = df[output_columns].sort_values("risk_score", ascending=False)
     result.to_csv(OUTPUT_PATH, index=False, encoding="utf-8-sig")
 
     print(f"Scored {len(result)} suppliers -> {OUTPUT_PATH}")
     print()
-    print("Risk level distribution:")
+    print("Risk level distribution (operational):")
     print(result["risk_level"].value_counts())
+    print()
+    print("Financial risk level distribution (separate axis):")
+    print(result["financial_risk_level"].value_counts())
     print()
     print(f"Suppliers with at least one estimated (imputed) input: {result['has_estimated_inputs'].sum()}")
     print()
-    print("Top 5 highest-risk suppliers:")
+    print(f"Suppliers with a CBAM compliance exposure (in-scope sector, exports to EU, "
+          f"no emissions-reporting capability): {int(result['cbam_compliance_risk'].sum())}")
+    print()
+    portfolio_hhi = compute_portfolio_hhi(df["supplier_dependency_ratio"])
+    hhi_level = "low" if portfolio_hhi < 1_500 else "moderate" if portfolio_hhi < 2_500 else "high"
+    print(f"Portfolio concentration (HHI): {portfolio_hhi:.0f} / 10,000 ({hhi_level} concentration, "
+          f"DOJ-style thresholds: <1,500 low, 1,500-2,500 moderate, >2,500 high)")
+    print()
+
+    sector_hhi_df = compute_sector_hhi(df)
+    sector_hhi_df.to_csv(SECTOR_HHI_OUTPUT_PATH, index=False, encoding="utf-8-sig")
+    print(f"Per-sector concentration (HHI) -> {SECTOR_HHI_OUTPUT_PATH}")
+    print("Most concentrated sectors:")
+    print(sector_hhi_df.head(5).to_string(index=False))
+    print()
+
+    print("Top 5 highest-risk suppliers (operational):")
     print(result[["company_name", "sector", "risk_score", "risk_level"]].head(5).to_string(index=False))
+    print()
+    print("Top 5 highest financial-risk suppliers:")
+    print(result.sort_values("financial_risk_score", ascending=False)
+          [["company_name", "sector", "financial_risk_score", "financial_risk_level"]].head(5).to_string(index=False))
 
 
 if __name__ == "__main__":

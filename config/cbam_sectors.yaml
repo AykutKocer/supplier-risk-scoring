@@ -1,0 +1,18 @@
+# Sectors from this project's own sector list (src/generate_suppliers.py's
+# SECTORS dict) that fall under the EU's Carbon Border Adjustment Mechanism
+# (CBAM/SKDM), which enters its definitive regime in 2026 -- see
+# docs/research_v2.md section 4.2.
+#
+# The real CBAM covers six product categories: iron & steel, aluminium,
+# cement, fertilizers, electricity, and hydrogen. Of this project's twelve
+# synthetic sectors, only "Metal ve Çelik" (Metal & Steel) maps onto that
+# list directly and honestly -- the others (Tekstil, Otomotiv Yan Sanayi,
+# etc.) are not CBAM-covered product categories, even though some of their
+# suppliers might use CBAM-covered inputs upstream. This list is
+# deliberately conservative: it flags only what's actually in scope, not
+# every sector that could plausibly be affected somewhere in its supply
+# chain.
+#
+# Used by compute_cbam_compliance_risk() in src/score_suppliers.py.
+cbam_covered_sectors:
+  - "Metal ve Çelik"
