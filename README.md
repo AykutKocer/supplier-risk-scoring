@@ -142,11 +142,39 @@ checklist (see `docs/research_v2.md`), not derived from a formula and not blende
 either risk score. Included as an explicit example that a purely numeric scorecard misses
 signals a real due-diligence process would catch.
 
+### AHP-derived weights
+
+The operational axis's default weights (35/25/25/15) are a defensible but **asserted**
+rationale — someone reasoned about it and picked numbers. The **Analytic Hierarchy Process
+(AHP)** is the academically standard alternative: instead of asserting four weights at
+once, state six simpler pairwise judgments ("how much more important is delivery than
+price?", on Saaty's 1-9 scale), then derive weights mathematically via the principal
+eigenvector method — with a built-in **Consistency Ratio (CR)** that catches
+self-contradictory judgments (e.g. A > B, B > C, but C > A) rather than trusting they're
+coherent by inspection.
+
+```bash
+python src/derive_ahp_weights.py           # report only — shows weights, matrix, and CR
+python src/derive_ahp_weights.py --apply   # also writes the derived weights into config/scoring_weights.yaml
+```
+
+The pairwise judgments live in `config/ahp_pairwise_comparisons.yaml`, each with its own
+documented rationale. For this project's own judgments: Consistency Ratio = 0.004 (well
+under Saaty's 0.10 threshold), and the derived weights (≈42/23/23/12) produce a ranking
+nearly identical to the asserted default (Spearman rank correlation ≈0.99) — see the
+notebook's "AHP-derived weights" section for the full walkthrough. This is presented
+honestly as a **consistency check**, not an independent second opinion: the pairwise
+judgments were informed by the same underlying reasoning as the original weights. What AHP
+adds is proof that reasoning doesn't contradict itself once decomposed into pairwise form —
+`--apply` is left as an opt-in, not run automatically, since a weighting decision remains a
+business judgment call, not something a script should silently overwrite.
+
 ## Project structure
 
 ```
 config/
-  scoring_weights.yaml        # editable risk weights + risk-level thresholds
+  scoring_weights.yaml         # editable risk weights + risk-level thresholds
+  ahp_pairwise_comparisons.yaml  # AHP pairwise judgments used to derive/cross-check those weights
   erp_profiles/                # YAML cleaning profiles (one per data source)
     synthetic_generator.yaml   # profile for this project's own synthetic data
     sap_export_example.yaml    # illustrative SAP-style profile (NOT verified against a real export)
@@ -165,6 +193,8 @@ src/
     ai_profile_assist.py   # builds a schema-constrained AI prompt to draft new profiles
   ai_draft_profile.py    # CLI for AI-assisted profile drafting
   score_suppliers.py     # risk scoring engine (both axes + HHI)
+  ahp.py                  # AHP pairwise-comparison weight derivation + consistency check
+  derive_ahp_weights.py   # CLI report / --apply for AHP-derived weights
 notebooks/
   supplier_risk_analysis.ipynb   # step-by-step walkthrough with charts
 reports/
@@ -262,8 +292,10 @@ Documented here deliberately, rather than left implicit:
   sector/segment.
 - **The scoring method (min-max normalization + weighted sum) is a simple, standard
   multi-criteria approach** — transparent and easy to explain, which matters for a risk
-  score people need to trust, but more advanced weighting methods (e.g. AHP, entropy
-  weighting) exist and could replace it without changing the rest of the pipeline.
+  score people need to trust. AHP (`src/ahp.py`) now offers a consistency-checked way to
+  *derive* the weights, but the combination step itself is still a weighted sum, not a
+  more advanced method like AHP-TOPSIS or entropy weighting — those remain open extensions
+  (see `docs/research_v2.md`).
 - **`financial_risk_score` is conceptually inspired by, not a reproduction of, a real
   Findeks/KKB report** — KKB's actual proprietary scoring formula isn't publicly published,
   so the weighting (30/30/40) is this project's own reasonable default, not a verified
@@ -313,13 +345,12 @@ someone can't explain is a risk score no one will trust.
 
 **v2 complete:** profile-driven cleaning engine, KOSGEB-aligned company sizing, VKN
 validation, HHI-based concentration risk, AI-assisted profile drafting, a separate
-financial risk axis, due-diligence red flags — all reflected in the data generation,
-cleaning, scoring, and notebook. The DAX measures for the new axes are written
-(`reports/dax_measures.txt`); adding them to the `.pbix` itself is a manual Power BI
-Desktop step, not yet done (see [Dashboard](#dashboard)).
+financial risk axis, due-diligence red flags, AHP-derived weight cross-check — all
+reflected in the data generation, cleaning, scoring, and notebook. The DAX measures for
+the new axes are written (`reports/dax_measures.txt`); adding them to the `.pbix` itself
+is a manual Power BI Desktop step, not yet done (see [Dashboard](#dashboard)).
 
-**Open, tracked in `docs/research_v2.md`:** AHP-derived weights (replacing asserted
-weights with a consistency-checked method), risk-score trend over time, a geopolitical/
+**Open, tracked in `docs/research_v2.md`:** risk-score trend over time, a geopolitical/
 country risk factor, per-sector HHI, and real (verified-against-an-actual-export) Logo/
 Netsis and SAP profile support — the two example ERP profiles in this repo are
 illustrative templates, not tested integrations.
