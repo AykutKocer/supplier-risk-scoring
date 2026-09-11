@@ -1,0 +1,60 @@
+# EXAMPLE / ILLUSTRATIVE PROFILE — not verified against a real Logo/Netsis
+# export file.
+#
+# Built from research into Logo/Netsis's documented Excel bulk-import/export
+# conventions (Turkish field labels, "Cari Kart" = vendor/customer master
+# record) rather than a real sample file — Turkey's Logo, Netsis, and Mikro
+# ERPs dominate the Turkish SME segment (Logo alone reports 85,000+ companies
+# using it) but are largely invisible to English-language procurement-tech
+# documentation, which assumes SAP/Oracle. See docs/research_v2.md section 4.1.
+#
+# Purpose: this is the concrete case for why this project needs a
+# profile-driven cleaning engine rather than one hardcoded script — a real
+# Turkish SME's export looks nothing like a SAP export (Turkish field
+# labels, Turkish-locale numbers/dates, no LIFNR/NAME1-style codes at all).
+
+name: logo_netsis_export_example
+description: >
+  Illustrative Logo/Netsis-style "Cari Kart" (vendor master) export profile,
+  built from documented Turkish ERP Excel-export conventions. Not tested
+  against a real Logo/Netsis export — treat as a documented starting point
+  for the Turkish-SME segment, not a verified profile.
+encoding: utf-8-sig
+
+column_mapping:
+  - source_name: Cari Kod
+    canonical_name: supplier_id
+  - source_name: Cari Ünvan
+    canonical_name: company_name
+  - source_name: Şehir
+    canonical_name: city
+  - source_name: Vergi No
+    canonical_name: vkn
+  - source_name: Ödeme Vadesi
+    canonical_name: payment_terms_days
+
+required_canonical_columns:
+  - supplier_id
+  - company_name
+  - city
+
+# Turkish desktop ERPs default to Turkish-locale Excel exports: comma as the
+# decimal separator, DD.MM.YYYY dates — the opposite convention from this
+# project's own synthetic generator, which is exactly why decimal_style is
+# a per-profile setting rather than something the engine assumes.
+numeric_columns:
+  - canonical_name: payment_terms_days
+    decimal_style: turkish
+    target_dtype: Int64
+
+date_columns: []
+closed_list_columns: []
+category_maps: []
+free_text_title_case_columns:
+  - canonical_name: company_name
+    known_suffixes:
+      a.s.: A.Ş.
+      ltd.: Ltd.
+      sti.: Şti.
+      tic.: Tic.
+      san.: San.
