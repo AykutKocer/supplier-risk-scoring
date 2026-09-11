@@ -176,6 +176,34 @@ adds is proof that reasoning doesn't contradict itself once decomposed into pair
 `--apply` is left as an opt-in, not run automatically, since a weighting decision remains a
 business judgment call, not something a script should silently overwrite.
 
+### Risk trend over time
+
+Everything above scores a **single snapshot**. That's a real, documented limitation of how
+supplier risk is actually managed in practice — `docs/research_v2.md` section 2.2 cites
+that supplier risk tiers "rarely get revisited after onboarding": a supplier can move from
+low to high risk within weeks and nothing catches it if the score is only ever computed once.
+
+```bash
+python src/generate_supplier_history.py   # -> data/raw/suppliers_history_raw.csv (4 quarters)
+python src/clean_suppliers.py --input data/raw/suppliers_history_raw.csv --output data/processed/suppliers_history_clean.csv
+python src/risk_trend.py                  # -> reports/supplier_risk_trend.csv, reports/risk_migrations.csv
+```
+
+`src/generate_supplier_history.py` re-generates the same 85 suppliers across four quarters,
+with performance/financial metrics drifting period to period via a bounded random walk —
+not independently re-randomized each quarter — while supplier identity fields (name,
+sector, VKN) stay fixed. The messy output cleans through the **same**
+`config/erp_profiles/synthetic_generator.yaml` profile unchanged (the extra `period` column
+just passes through, proving the profile-driven engine really is source-agnostic).
+
+`src/risk_trend.py` scores each period independently using the exact same
+`compute_metrics` / `compute_risk_score` / `compute_financial_risk_score` functions as the
+point-in-time pipeline — not a parallel reimplementation — then flags every **risk
+migration**: a period-to-period transition into a strictly worse risk category. On this
+project's own synthetic history, that surfaced 29 operational and 26 financial risk
+migrations across 26 and 24 suppliers respectively — drift a one-time assessment would
+never have caught. See the notebook's "Risk trend over time" section for the full walkthrough.
+
 ## Project structure
 
 ```
@@ -202,11 +230,15 @@ src/
   score_suppliers.py     # risk scoring engine (both axes + HHI)
   ahp.py                  # AHP pairwise-comparison weight derivation + consistency check
   derive_ahp_weights.py   # CLI report / --apply for AHP-derived weights
+  generate_supplier_history.py  # multi-period (quarterly) synthetic history generator
+  risk_trend.py            # per-period scoring + risk migration detection
 notebooks/
   supplier_risk_analysis.ipynb   # step-by-step walkthrough with charts
 reports/
   supplier_risk_scores.csv       # scored output (Power BI data source)
   sector_concentration.csv       # per-sector HHI breakdown
+  supplier_risk_trend.csv        # per-period scores across the synthetic quarterly history
+  risk_migrations.csv            # flagged period-to-period risk-level worsenings
   supplier_risk_dashboard.pbix   # Power BI dashboard
   dax_measures.txt               # reference DAX measures used in the dashboard
 docs/
@@ -356,11 +388,11 @@ someone can't explain is a risk score no one will trust.
 **v2 complete:** profile-driven cleaning engine, KOSGEB-aligned company sizing, VKN
 validation, portfolio + per-sector HHI-based concentration risk, AI-assisted profile
 drafting, a separate financial risk axis, due-diligence red flags, AHP-derived weight
-cross-check — all reflected in the data generation, cleaning, scoring, and notebook. The
-DAX measures for the new axes are written (`reports/dax_measures.txt`); adding them to the
-`.pbix` itself is a manual Power BI Desktop step, not yet done (see [Dashboard](#dashboard)).
+cross-check, multi-period risk trend + migration detection — all reflected in the data
+generation, cleaning, scoring, and notebook. The DAX measures for the new axes are written
+(`reports/dax_measures.txt`); adding them to the `.pbix` itself is a manual Power BI
+Desktop step, not yet done (see [Dashboard](#dashboard)).
 
-**Open, tracked in `docs/research_v2.md`:** risk-score trend over time, a geopolitical/
-country risk factor, and real (verified-against-an-actual-export) Logo/Netsis and SAP
-profile support — the two example ERP profiles in this repo are illustrative templates,
-not tested integrations.
+**Open, tracked in `docs/research_v2.md`:** a geopolitical/country risk factor, and real
+(verified-against-an-actual-export) Logo/Netsis and SAP profile support — the two example
+ERP profiles in this repo are illustrative templates, not tested integrations.

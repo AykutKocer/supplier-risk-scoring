@@ -439,7 +439,7 @@ a month" approach.
 | AI-assisted source profile drafting | Prompt built from the real Pydantic schema; validates any AI response before trusting it | Medium | ✅ Done (`src/ai_draft_profile.py`, 14 tests) |
 | Separate financial_risk_score axis (Findeks-inspired) | A genuinely new, independent risk dimension — verified top-5 lists are disjoint from operational risk | Medium | ✅ Done — not blended into risk_score, by design |
 | Turkish-context binary red flags (export docs, upfront-payment demand, site verification) | Qualitative, practitioner-grounded signals, not just numeric ratios | Small | ✅ Done (size-tiered generation + cleaning, 5 tests) |
-| Risk score trend over time (multiple synthetic time periods) | Addresses the "point-in-time vs continuous" gap without needing live data feeds | Medium | ⬜ Not started |
+| Risk score trend over time (multiple synthetic time periods) | Addresses the "point-in-time vs continuous" gap without needing live data feeds | Medium | ✅ Done (`src/generate_supplier_history.py`, `src/risk_trend.py`, migration detection, 15 tests) |
 | AHP-derived weights (replacing asserted weights) | Rigorous, consistency-checked weight justification — strong interview talking point | Medium | ✅ Done (`src/ahp.py`, CR=0.004, 14 tests) — cross-check, `--apply` left opt-in |
 | Geopolitical/country risk factor (GPR-index-style) | A real, citable academic data source, relevant once suppliers extend beyond Turkey | Medium | ⬜ Not started |
 | ESG/CBAM compliance risk flag for EU-facing exporters | Directly tied to a dated 2026 regulatory requirement — strong "real-world relevance" story | Medium-Large | ⬜ Not started |
